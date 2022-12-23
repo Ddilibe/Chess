@@ -6,8 +6,8 @@ class BoardGeneration():
 
 	def __init__(self):
 		""" Method for initializing the board """
-		WP, WH, WQ, WN, WB, WK = "0L","0L","0L","0L","0L","0L"
-		BP, BH, BQ, BN, BB, BK = "0L","0L","0L","0L","0L","0L"
+		WP, WH, WQ, WN, WB, WK = 0, 0, 0, 0, 0, 0
+		BP, BH, BQ, BN, BB, BK = 0, 0, 0, 0, 0, 0
 		chessboard = [
 			["r", "n", "b", "q", "k", "b", "n", "r"],
 			["p", "p", "p", "p", "p", "p", "p", "p"],
@@ -27,8 +27,8 @@ class BoardGeneration():
 		""" Method that converts a string to binary """
 		Binary = None
 		for i in range(64):
-			Binary = "0"*65
-			Binary = Binary[i+1] + "1" + "".join(list(Binary)[0:i])
+			Binary = "0"*64
+			Binary = Binary[i+1:] + "1" + "".join(list(Binary)[0:i])
 			value = chessboard[int(i/8)][int(i%8)]
 			if value == "P":
 				WP += self.convert_string_to_bitboard(Binary)
@@ -56,40 +56,49 @@ class BoardGeneration():
 				BK += self.convert_string_to_bitboard(Binary)
 			else:
 				pass
+		# print(WP, WH, WN, WB, WQ, WK, BP, BH, BN, BB, BQ, BK)
 		self.draw_array(WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
 
 	def convert_string_to_bitboard(self, binary):
 		""" Method for converting string to bitboard """
-		return bin(int(binary))
+		if binary[0] == "0":
+			return self.generate_decimal(binary)
+		return self.generate_decimal("1" + binary[2:]) * 2
 
 	def draw_array(self, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
 		""" Method to rediagramatize the chessboard to verify that they all remain in their exact position """
 		chessboard = [[" " for j in range(8)] for j in range(8)]
 		for i in range(64):
-			if (((int(WP.split("0b")[1]) >> i) & 1) == 1):
+			if (((WP >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "P"
-			if (((int(WH.split("0b")[1]) >> i) & 1) == 1):
+			if (((WH >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "R"
-			if (((int(WQ.split("0b")[1]) >> i) & 1) == 1):
+			if (((WQ >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "Q"
-			if (((int(WN.split("0b")[1]) >> i) & 1) == 1):
+			if (((WN >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "N"
-			if (((int(WB.split("0b")[1]) >> i) & 1) == 1):
+			if (((WB >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "B"
-			if (((int(WK.split("0b")[1]) >> i) & 1) == 1):
+			if (((WK >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "K"
-			if (((int(BP.split("0b")[1]) >> i) & 1) == 1):
+			if (((BP >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "p"
-			if (((int(BH.split("0b")[1]) >> i) & 1) == 1):
+			if (((BH >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "r"
-			if (((int(BQ.split("0b")[1]) >> i) & 1) == 1):
+			if (((BQ >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "q"
-			if (((int(BN.split("0b")[1]) >> i) & 1) == 1):
+			if (((BN >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "n"
-			if (((int(BB.split("0b")[1]) >> i) & 1) == 1):
+			if (((BB >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "b"
-			if (((int(BK.split("0b")[1]) >> i) & 1) == 1):
+			if (((BK >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "k"
 		for i in chessboard:
 			print(i)
-		print(help(list))
+
+	def generate_decimal(self, binary):
+		""" Function for deriving the denary form of the binary """
+		w = 0
+		for i in range(len(binary)):
+			w += int(binary[-(i + 1)]) * (2 ** i)
+		return w
