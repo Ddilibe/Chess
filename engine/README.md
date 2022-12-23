@@ -23,3 +23,9 @@ The one's complement is the same for a positive binary number. But for a negativ
 To find the second complement, find the one's complement and add one to it. This only occurs on negative numbers
 
 
+
+### Resources
+
+1. [Wikipedia: Chess960 Starting Posi](https://en.wikipedia.org/wiki/Fischer_random_chess)
+
+2. [Chess and Bitboards](https://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/index.html)

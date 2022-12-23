@@ -102,3 +102,5 @@ class BoardGeneration():
 		for i in range(len(binary)):
 			w += int(binary[-(i + 1)]) * (2 ** i)
 		return w
+
+		
