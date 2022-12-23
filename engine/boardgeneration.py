@@ -2,6 +2,8 @@
 
 """ Script for generating the bitboard """
 
+import random
+
 class BoardGeneration():
 
 	def __init__(self):
@@ -21,7 +23,71 @@ class BoardGeneration():
 		self.array_to_bitboard(chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
 
 	def initiate_chess_960(self):
-		pass
+		WP, WH, WQ, WN, WB, WK = 0, 0, 0, 0, 0, 0
+		BP, BH, BQ, BN, BB, BK = 0, 0, 0, 0, 0, 0
+		chessboard = [
+			[" ", " ", " ", " ", " ", " ", " ", " "],
+			["p", "p", "p", "p", "p", "p", "p", "p"],
+			[" ", " ", " ", " ", " ", " ", " ", " "],
+			[" ", " ", " ", " ", " ", " ", " ", " "],
+			[" ", " ", " ", " ", " ", " ", " ", " "],
+			[" ", " ", " ", " ", " ", " ", " ", " "],
+			["P", "P", "P", "P", "P", "P", "P", "P"],
+			[" ", " ", " ", " ", " ", " ", " ", " "],
+		]
+
+		# Step 1
+		random1 = int(random.random() * 8)
+		chessboard[0][random1] = "b"
+		chessboard[7][random1] = "B"
+
+		# Step 2
+		random2 = int(random.random() * 8)
+		while (random2%2 == random1%2):
+			random2 = int(random.random() * 8)
+		chessboard[0][random2] = "b"
+		chessboard[7][random2] = "B"
+
+		# Step 3
+		random3 = int(random.random() * 8)
+		while (random2==random3 or random1==random3):
+			random3 = int(random.random() * 8)
+		chessboard[0][random3] = "q"
+		chessboard[7][random3] = "Q"
+
+		# Step 4
+		random4a, counter, loop = int(random.random() * 5), 0, 0
+		while counter - 1 < random4a:
+			if chessboard[0][loop] == " ":
+				counter += 1
+			loop += 1
+		chessboard[0][loop - 1] = "n"
+		chessboard[7][loop - 1] = "N"
+		random4b, counter, loop = int(random.random() * 4), 0, 0
+		while counter - 1 < random4b:
+			if chessboard[0][loop] == " ":
+				counter += 1
+			loop += 1
+		chessboard[0][loop - 1] = "n"
+		chessboard[7][loop - 1] = "N"
+
+		# Step 5
+		j = 0
+		for i in range(8):
+			if chessboard[0][i] == " ":
+				if j == 0:
+					chessboard[0][i] = "r"
+					chessboard[7][i] = "R"
+				if j == 1:
+					chessboard[0][i] = "k"
+					chessboard[7][i] = "K"
+				if j == 2:
+					chessboard[0][i] = "r"
+					chessboard[7][i] = "R"
+				j += 1
+			if j >= 3:
+				break
+		self.array_to_bitboard(chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
 
 	def array_to_bitboard(self, chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
 		""" Method that converts a string to binary """
@@ -103,4 +169,3 @@ class BoardGeneration():
 			w += int(binary[-(i + 1)]) * (2 ** i)
 		return w
 
-		

@@ -29,3 +29,7 @@ To find the second complement, find the one's complement and add one to it. This
 1. [Wikipedia: Chess960 Starting Posi](https://en.wikipedia.org/wiki/Fischer_random_chess)
 
 2. [Chess and Bitboards](https://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/index.html)
+
+3. [Chess Programming](https://www.chessprogramming.org/General_Setwise_Operations)
+
+4. 
