@@ -22,7 +22,46 @@ The one's complement is the same for a positive binary number. But for a negativ
 
 To find the second complement, find the one's complement and add one to it. This only occurs on negative numbers
 
+## Bitwise Operations
 
+Bitwise operations form my own point of view are those operations that involves the manipulations of bits in the computer. Bits are 1s and 0s. In python programming, bit operation can only be done on integers.
+
+Before any integer is manipulated via bitwise operators, they are first converted into binary form (1s and 0s).
+
+```
+
+Example:
+	a, b = 1, 2
+
+	First, it converts a to binary form
+	which is 1
+	Then it converts b to its binary form
+	which is 10
+	a & b will be
+	1 & 10 
+	Then it goes on with the bitwise operation. 
+
+	When It is done with the bitwise operation, it then converts it to denary (base 10)
+	Answer: 0
+```
+
+There are different types of bit operators
+
+--------------------------------------------
+Operators | Description | Syntax | Explanation
+____________________________________________
+& | Bitwise AND | x & y | This bitwise operator compares both bit values and return 1 if both bits are 1 else it will return 0 `10001 & 11000 = 10000`
+--------------------------------------------
+\| | Bitwise OR | x\|y | This bitwise operator compares both bit values and return 1 if either bits are 1 else it will return 0 `10001 & 11000 = 11001`
+____________________________________________
+~ | Bitwise NOT | ~x | 
+____________________________________________
+^ | Bitwise XOR | x^y |
+____________________________________________
+\>\> | Bitwise Right Shift | x\>\> |
+____________________________________________
+<< | Bitwise Left Shift | x<<
+____________________________________________
 
 ### Resources
 
