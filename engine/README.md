@@ -9,11 +9,12 @@ A bitboard is a way of representing the borad on a computer. Bitboards can also 
 ### How to find the Complements
 1. One's Complement
 
-The one's complement is the same for a positive binary number. But for a negative number, Once it is converted to binary, replace every where one is with zero and everywhere zero is to one.
+To find one's complement of a number, first of all, convert the number into bits then any place that there is an occurance of 2 replace it with 0. After that convert it to denary.
 
 
 |	Decimal | Binary | One's complement |
 | :----:    | :-----:| :-------: |
+|		5  |   0101 |     1010 |
 |		-5  |   0101 |     1010 |
 |		-6  |   0110 |     1001 |
 |		-7  |   0111 |     1000 |
