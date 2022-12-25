@@ -48,19 +48,19 @@ Example:
 There are different types of bit operators
 
 --------------------------------------------
-Operators | Description | Syntax | Explanation
+| Operators | Description | Syntax | Explanation
 ____________________________________________
-& | Bitwise AND | x & y | This bitwise operator compares both bit values and return 1 if both bits are 1 else it will return 0 `10001 & 11000 = 10000`
+| & | Bitwise AND | x & y | This bitwise operator compares both bit values and return 1 if both bits are 1 else it will return 0 `10001 & 11000 = 10000`
 --------------------------------------------
-\| | Bitwise OR | x\|y | This bitwise operator compares both bit values and return 1 if either bits are 1 else it will return 0 `10001 & 11000 = 11001`
-____________________________________________
-~ | Bitwise NOT | ~x | 
-____________________________________________
-^ | Bitwise XOR | x^y |
-____________________________________________
-\>\> | Bitwise Right Shift | x\>\> |
-____________________________________________
-<< | Bitwise Left Shift | x<<
+| \| | Bitwise OR | x\|y | This bitwise operator compares both bit values and return 1 if either bits are 1 else it will return 0 `10001 & 11000 = 11001`
+--------------------------------------------
+| ~ | Bitwise NOT | ~x | 
+--------------------------------------------
+| ^ | Bitwise XOR | x^y |
+--------------------------------------------
+| \>\> | Bitwise Right Shift | x\>\> |
+--------------------------------------------
+| << | Bitwise Left Shift | x<<
 ____________________________________________
 
 ### Resources
