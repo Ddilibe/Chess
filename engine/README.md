@@ -11,12 +11,12 @@ A bitboard is a way of representing the borad on a computer. Bitboards can also 
 
 The one's complement is the same for a positive binary number. But for a negative number, Once it is converted to binary, replace every where one is with zero and everywhere zero is to one.
 
-```
-	Decimal | Binary | One's complement
-		-5  |   0101 |     1010
-		-6  |   0110 |     1001
-		-7  |   0111 |     1000
-```
+
+|	Decimal | Binary | One's complement |
+| :----:    | :-----:| :-------: |
+|		-5  |   0101 |     1010 |
+|		-6  |   0110 |     1001 |
+|		-7  |   0111 |     1000 |
 
 2. Two's complement
 
@@ -28,47 +28,40 @@ Bitwise operations form my own point of view are those operations that involves 
 
 Before any integer is manipulated via bitwise operators, they are first converted into binary form (1s and 0s).
 
-```
+```python
 
-Example:
+	# Example:
 	a, b = 1, 2
 
-	First, it converts a to binary form
-	which is 1
-	Then it converts b to its binary form
-	which is 10
-	a & b will be
-	1 & 10 
-	Then it goes on with the bitwise operation. 
+	# First, it converts a to binary form which is 1
+	# Then it converts b to its binary form which is 10
+	# a & b will be	1 & 10 
+	ans = a&b
+	# Then it goes on with the bitwise operation. 
 
-	When It is done with the bitwise operation, it then converts it to denary (base 10)
-	Answer: 0
+	# When It is done with the bitwise operation, it then converts it to denary (base 10)
+	print(ans)
+	# This will print 0
 ```
 
 There are different types of bit operators
 
---------------------------------------------
-| Operators | Description | Syntax | Explanation
-____________________________________________
-| & | Bitwise AND | x & y | This bitwise operator compares both bit values and return 1 if both bits are 1 else it will return 0 `10001 & 11000 = 10000`
---------------------------------------------
-| \| | Bitwise OR | x\|y | This bitwise operator compares both bit values and return 1 if either bits are 1 else it will return 0 `10001 & 11000 = 11001`
---------------------------------------------
-| ~ | Bitwise NOT | ~x | 
---------------------------------------------
-| ^ | Bitwise XOR | x^y |
---------------------------------------------
-| \>\> | Bitwise Right Shift | x\>\> |
---------------------------------------------
-| << | Bitwise Left Shift | x<<
-____________________________________________
+| Operators | Description | Syntax | Explanation |
+| --------- | ----------- | ------ | ----------- |
+| & | Bitwise AND | x & y | This bitwise operator compares both bit values and return 1 if both bits are 1 else it will return 0 <br> `10001 & 11000 = 10000` |
+| \| | Bitwise OR | x\|y | This bitwise operator compares both bit values and return 1 if either bits are 1 else it will return 0 <br> `10001 & 11000 = 11001` |
+| ~ | Bitwise NOT | ~x | This bitwise operation is used to obtain one's complement of the value. <br> |
+| ^ | Bitwise XOR | x^y | This bitwise operator compares both bit values and returns 1 if one of the bit is 0 and the other one is 1. If both bits are 0 or 1, then it returns 0 <br> `10001 ^ 11000 = 01001` |
+| \>\> | Bitwise Right Shift | x\>\> | This bitwise operator shifts the left operand bits towards the right side for the given number of times in the right operand <br> `10001 >> 2 = 100` |
+| << | Bitwise Left Shift | x<< | This bitwise operator is the opposite of the right shift operator. It shifts the left operand bits towards the left side for the given number of times in the right operand. <br> `10001 << 2 = 1000100` |
 
+** Note ** : `10001 = 17` and `11000 = 24`
 ### Resources
 
-1. [Wikipedia: Chess960 Starting Posi](https://en.wikipedia.org/wiki/Fischer_random_chess)
+1. [Wikipedia: Chess960 Starting Position](https://en.wikipedia.org/wiki/Fischer_random_chess)
 
 2. [Chess and Bitboards](https://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/index.html)
 
 3. [Chess Programming](https://www.chessprogramming.org/General_Setwise_Operations)
 
-4. 
+4. [Bitwise Operations on DigitalOcean](https://www.digitalocean.com/community/tutorials/python-bitwise-operators)

@@ -90,7 +90,33 @@ class BoardGeneration():
 		self.array_to_bitboard(chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
 
 	def array_to_bitboard(self, chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
-		""" Method that converts a string to binary """
+		""" 
+		Method that converts a string to binary
+
+		Explanation:
+			First of all, Binary variable name is declared
+			The following steps is what took place in the for loop
+
+			Step 1:
+			The binary variable is assigned to a string containing 64 zeros
+			Binary = "000000000000000000000000000000000000000000000000000000000000000"
+
+			Step 2:
+			For every value of i, it creates the bitwise format for the value
+			if i = 1:
+				Binary = "000000000000000000000000000000000000000000000000000000000000010"
+			if i = 2:
+				Binary = "000000000000000000000000000000000000000000000000000000000000100"
+
+			Step 3:
+			Since the loop is to run 64 times and the bitboard representation of the board is 64, 
+			the section of the board is identified.
+
+			Step 4:
+			This step compares the positions gotten in the board and the value and converts it to decimal
+			number before assigning it to a variable.
+
+		"""
 		Binary = None
 		for i in range(64):
 			Binary = "0"*64
@@ -132,7 +158,21 @@ class BoardGeneration():
 		return self.generate_decimal("1" + binary[2:]) * 2
 
 	def draw_array(self, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
-		""" Method to rediagramatize the chessboard to verify that they all remain in their exact position """
+		""" 
+			Method to rediagramatize the chessboard to verify that they all remain in their exact position 
+			This method was implemented to make sure that the idea behind the board remains the same and bug free.
+			
+			Explanation:
+				First of all, it creates a 2-dimensional list containing empty string types.
+				Then it goes through a loop in a range of 64
+
+				It then takes I and compares i with all the arguments passed in
+				It compares it through bitwise operations.
+
+				It takes one of the argument and right shift it the number of times i is then bitwise and it to 1.
+				If the value gotten is one, the it records it on the empty chess board
+
+		"""
 		chessboard = [[" " for j in range(8)] for j in range(8)]
 		for i in range(64):
 			if (((WP >> i) & 1) == 1):
