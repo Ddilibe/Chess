@@ -53,8 +53,8 @@ There are different types of bit operators
 | \| | Bitwise OR | x\|y | This bitwise operator compares both bit values and return 1 if either bits are 1 else it will return 0 <br> `10001 & 11000 = 11001` |
 | ~ | Bitwise NOT | ~x | This bitwise operation is used to obtain one's complement of the value. <br> |
 | ^ | Bitwise XOR | x^y | This bitwise operator compares both bit values and returns 1 if one of the bit is 0 and the other one is 1. If both bits are 0 or 1, then it returns 0 <br> `10001 ^ 11000 = 01001` |
-| \>\> | Bitwise Right Shift | x\>\> | This bitwise operator shifts the left operand bits towards the right side for the given number of times in the right operand <br> `10001 >> 2 = 100` |
-| << | Bitwise Left Shift | x<< | This bitwise operator is the opposite of the right shift operator. It shifts the left operand bits towards the left side for the given number of times in the right operand. <br> `10001 << 2 = 1000100` |
+| \>\> | Bitwise Right Shift | x\>\>2 | This bitwise operator shifts the left operand bits towards the right side for the given number of times in the right operand <br> `10001 >> 2 = 100` |
+| << | Bitwise Left Shift | x<<2 | This bitwise operator is the opposite of the right shift operator. It shifts the left operand bits towards the left side for the given number of times in the right operand. <br> `10001 << 2 = 1000100` |
 
 ** Note ** : `10001 = 17` and `11000 = 24`
 ### Resources
