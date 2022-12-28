@@ -6,10 +6,12 @@ import random
 
 class BoardGeneration():
 
-	def __init__(self):
+	def __init__(self, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
 		""" Method for initializing the board """
-		WP, WH, WQ, WN, WB, WK = 0, 0, 0, 0, 0, 0
-		BP, BH, BQ, BN, BB, BK = 0, 0, 0, 0, 0, 0
+		self.WP, self.WH, self.WQ, self.WN, self.WB, self.WK = WP, WH, WQ, WN, WB, WK
+		self.BP, self.BH, self.BQ, self.BN, self.BB, self.BK = BP, BH, BQ, BN, BB, BK
+		self.WP.decimal, self.WH.decimal, self.WQ.decimal, self.WN.decimal, self.WB.decimal, self.WK.decimal = 0, 0, 0, 0, 0, 0
+		self.BP.decimal, self.BH.decimal, self.BQ.decimal, self.BN.decimal, self.BB.decimal, self.BK.decimal = 0, 0, 0, 0, 0, 0
 		chessboard = [
 			["r", "n", "b", "q", "k", "b", "n", "r"],
 			["p", "p", "p", "p", "p", "p", "p", "p"],
@@ -20,11 +22,11 @@ class BoardGeneration():
 			["P", "P", "P", "P", "P", "P", "P", "P"],
 			["R", "N", "B", "Q", "K", "B", "N", "R"]
 		]
-		self.array_to_bitboard(chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
+		# self.array_to_bitboard(chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
 
 	def initiate_chess_960(self):
-		WP, WH, WQ, WN, WB, WK = 0, 0, 0, 0, 0, 0
-		BP, BH, BQ, BN, BB, BK = 0, 0, 0, 0, 0, 0
+		self.WP.decimal, self.WH.decimal, self.WQ.decimal, self.WN.decimal, self.WB.decimal, self.WK.decimal = 0, 0, 0, 0, 0, 0
+		self.BP.decimal, self.BH.decimal, self.BQ.decimal, self.BN.decimal, self.BB.decimal, self.BK.decimal = 0, 0, 0, 0, 0, 0
 		chessboard = [
 			[" ", " ", " ", " ", " ", " ", " ", " "],
 			["p", "p", "p", "p", "p", "p", "p", "p"],
@@ -87,9 +89,9 @@ class BoardGeneration():
 				j += 1
 			if j >= 3:
 				break
-		self.array_to_bitboard(chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
+		self.array_to_bitboard(chessboard)
 
-	def array_to_bitboard(self, chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
+	def array_to_bitboard(self, chessboard):
 		""" 
 		Method that converts a string to binary
 
@@ -117,39 +119,64 @@ class BoardGeneration():
 			number before assigning it to a variable.
 
 		"""
-		Binary = None
+		Binary, general_list = None, []
 		for i in range(64):
 			Binary = "0"*64
 			Binary = Binary[i+1:] + "1" + "".join(list(Binary)[0:i])
 			value = chessboard[int(i/8)][int(i%8)]
 			if value == "P":
-				WP += self.convert_string_to_bitboard(Binary)
+				self.WP.decimal += self.convert_string_to_bitboard(Binary)
+				self.WP.bitwise = Binary
+				general_list.append(self.WP)
 			elif value == "R":
-				WH += self.convert_string_to_bitboard(Binary)
+				self.WH.decimal += self.convert_string_to_bitboard(Binary)
+				self.WH.bitwise = Binary
+				general_list.append(self.WH)
 			elif value == "N":
-				WN += self.convert_string_to_bitboard(Binary)
+				self.WN.decimal += self.convert_string_to_bitboard(Binary)
+				self.WN.bitwise = Binary
+				general_list.append(self.WN)
 			elif value == "B":
-				WB += self.convert_string_to_bitboard(Binary)
+				self.WB.decimal += self.convert_string_to_bitboard(Binary)
+				self.WB.bitwise = Binary
+				general_list.append(self.WB)
 			elif value == "Q":
-				WQ += self.convert_string_to_bitboard(Binary)
+				self.WQ.decimal += self.convert_string_to_bitboard(Binary)
+				self.WQ.bitwise = Binary
+				general_list.append(self.WQ)
 			elif value == "K":
-				WK += self.convert_string_to_bitboard(Binary)
+				self.WK.decimal += self.convert_string_to_bitboard(Binary)
+				self.WK.bitwise = Binary
+				general_list.append(self.WK)
 			elif value == "p":
-				BP += self.convert_string_to_bitboard(Binary)
+				self.BP.decimal += self.convert_string_to_bitboard(Binary)
+				self.BP.bitwise = Binary
+				general_list.append(self.BP)
 			elif value == "r":
-				BH += self.convert_string_to_bitboard(Binary)
+				self.BH.decimal += self.convert_string_to_bitboard(Binary)
+				self.BH.bitwise = Binary
+				general_list.append(self.BH)
 			elif value == "n":
-				BN += self.convert_string_to_bitboard(Binary)
+				self.BN.decimal += self.convert_string_to_bitboard(Binary)
+				self.BN.bitwise = Binary
+				general_list.append(self.BN)
 			elif value == "b":
-				BB += self.convert_string_to_bitboard(Binary)
+				self.BB.decimal += self.convert_string_to_bitboard(Binary)
+				self.BB.bitwise = Binary
+				general_list.append(self.BB)
 			elif value == "q":
-				BQ += self.convert_string_to_bitboard(Binary)
+				self.BQ.decimal += self.convert_string_to_bitboard(Binary)
+				self.BQ.bitwise = Binary
+				general_list.append(self.BQ)
 			elif value == "k":
-				BK += self.convert_string_to_bitboard(Binary)
+				self.BK.decimal += self.convert_string_to_bitboard(Binary)
+				self.BK.bitwise = Binary
+				general_list.append(self.BK)
 			else:
 				pass
 		# print(WP, WH, WN, WB, WQ, WK, BP, BH, BN, BB, BQ, BK)
-		self.draw_array(WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
+		# self.draw_array(WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
+		return (general_list)
 
 	def convert_string_to_bitboard(self, binary):
 		""" Method for converting string to bitboard """
@@ -157,7 +184,7 @@ class BoardGeneration():
 			return self.generate_decimal(binary)
 		return self.generate_decimal("1" + binary[2:]) * 2
 
-	def draw_array(self, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
+	def draw_array(self):
 		""" 
 			Method to rediagramatize the chessboard to verify that they all remain in their exact position 
 			This method was implemented to make sure that the idea behind the board remains the same and bug free.
@@ -175,29 +202,29 @@ class BoardGeneration():
 		"""
 		chessboard = [[" " for j in range(8)] for j in range(8)]
 		for i in range(64):
-			if (((WP >> i) & 1) == 1):
+			if (((self.WP.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "P"
-			if (((WH >> i) & 1) == 1):
+			if (((self.WH.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "R"
-			if (((WQ >> i) & 1) == 1):
+			if (((self.WQ.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "Q"
-			if (((WN >> i) & 1) == 1):
+			if (((self.WN.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "N"
-			if (((WB >> i) & 1) == 1):
+			if (((self.WB.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "B"
-			if (((WK >> i) & 1) == 1):
+			if (((self.WK.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "K"
-			if (((BP >> i) & 1) == 1):
+			if (((self.BP.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "p"
-			if (((BH >> i) & 1) == 1):
+			if (((self.BH.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "r"
-			if (((BQ >> i) & 1) == 1):
+			if (((self.BQ.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "q"
-			if (((BN >> i) & 1) == 1):
+			if (((self.BN.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "n"
-			if (((BB >> i) & 1) == 1):
+			if (((self.BB.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "b"
-			if (((BK >> i) & 1) == 1):
+			if (((self.BK.decimal >> i) & 1) == 1):
 				chessboard[int(i/8)][int(i%8)] = "k"
 		for i in chessboard:
 			print(i)
