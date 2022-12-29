@@ -3,16 +3,27 @@
 """ Script for generating the bitboard """
 
 import random
+from scene import dir_path
+from piece.rook import Rook
+from piece.queen import Queen
+from piece.king import King
+from piece.pawn import Pawn
+from piece.knight import Knight
+from piece.bishop import Bishop
 
 class BoardGeneration():
 
-	def __init__(self, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
+	def __init__(self, choose):
 		""" Method for initializing the board """
-		self.WP, self.WH, self.WQ, self.WN, self.WB, self.WK = WP, WH, WQ, WN, WB, WK
-		self.BP, self.BH, self.BQ, self.BN, self.BB, self.BK = BP, BH, BQ, BN, BB, BK
-		self.WP.decimal, self.WH.decimal, self.WQ.decimal, self.WN.decimal, self.WB.decimal, self.WK.decimal = 0, 0, 0, 0, 0, 0
-		self.BP.decimal, self.BH.decimal, self.BQ.decimal, self.BN.decimal, self.BB.decimal, self.BK.decimal = 0, 0, 0, 0, 0, 0
-		self.chessboard = [
+		# self.WP, self.WH, self.WQ, self.WN, self.WB, self.WK = WP, WH, WQ, WN, WB, WK
+		# self.BP, self.BH, self.BQ, self.BN, self.BB, self.BK = BP, BH, BQ, BN, BB, BK
+		# self.WP.decimal, self.WH.decimal, self.WQ.decimal, self.WN.decimal, self.WB.decimal, self.WK.decimal = 0, 0, 0, 0, 0, 0
+		# self.BP.decimal, self.BH.decimal, self.BQ.decimal, self.BN.decimal, self.BB.decimal, self.BK.decimal = 0, 0, 0, 0, 0, 0
+		self.choose = choose
+		# self.array_to_bitboard(chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
+
+	def initiate_normal_chess(self):
+		chessboard = [
 			["r", "n", "b", "q", "k", "b", "n", "r"],
 			["p", "p", "p", "p", "p", "p", "p", "p"],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
@@ -22,12 +33,12 @@ class BoardGeneration():
 			["P", "P", "P", "P", "P", "P", "P", "P"],
 			["R", "N", "B", "Q", "K", "B", "N", "R"]
 		]
-		# self.array_to_bitboard(chessboard, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
+		return self.array_to_bitboard(chessboard)
 
 	def initiate_chess_960(self):
-		self.WP.decimal, self.WH.decimal, self.WQ.decimal, self.WN.decimal, self.WB.decimal, self.WK.decimal = 0, 0, 0, 0, 0, 0
-		self.BP.decimal, self.BH.decimal, self.BQ.decimal, self.BN.decimal, self.BB.decimal, self.BK.decimal = 0, 0, 0, 0, 0, 0
-		self.chessboard = [
+		# self.WP.decimal, self.WH.decimal, self.WQ.decimal, self.WN.decimal, self.WB.decimal, self.WK.decimal = 0, 0, 0, 0, 0, 0
+		# self.BP.decimal, self.BH.decimal, self.BQ.decimal, self.BN.decimal, self.BB.decimal, self.BK.decimal = 0, 0, 0, 0, 0, 0
+		chessboard = [
 			[" ", " ", " ", " ", " ", " ", " ", " "],
 			["p", "p", "p", "p", "p", "p", "p", "p"],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
@@ -89,9 +100,9 @@ class BoardGeneration():
 				j += 1
 			if j >= 3:
 				break
-		self.array_to_bitboard()
+		return self.array_to_bitboard(chessboard)
 
-	def array_to_bitboard(self):
+	def array_to_bitboard(self, chessboard):
 		""" 
 		Method that converts a string to binary
 
@@ -119,61 +130,89 @@ class BoardGeneration():
 			number before assigning it to a variable.
 
 		"""
-		Binary, general_list = None, []
+		Binary, general_list, path = None, [], f"{dir_path}/media/image/image_1/"
 		for i in range(64):
 			Binary = "0"*64
 			Binary = Binary[i+1:] + "1" + "".join(list(Binary)[0:i])
-			value = self.chessboard[int(i/8)][int(i%8)]
+			value = chessboard[int(i/8)][int(i%8)]
+			print(int(i/8), int(i%8))
 			if value == "P":
-				self.WP.decimal += self.convert_string_to_bitboard(Binary)
-				self.WP.bitwise = Binary
-				general_list.append(self.WP)
+				WP = Pawn(f"{path}white_pawn.png")
+				WP.decimal += self.convert_string_to_bitboard(Binary)
+				WP.bitwise = Binary
+				WP.position = (int(i/8), int(i%8))
+				general_list.append(WP)
 			elif value == "R":
-				self.WH.decimal += self.convert_string_to_bitboard(Binary)
-				self.WH.bitwise = Binary
-				general_list.append(self.WH)
+				WH = Rook(f"{path}white_rook.png")
+				WH.decimal += self.convert_string_to_bitboard(Binary)
+				WH.bitwise = Binary
+				WH.position = (int(i/8), int(i%8))
+				general_list.append(WH)
 			elif value == "N":
-				self.WN.decimal += self.convert_string_to_bitboard(Binary)
-				self.WN.bitwise = Binary
-				general_list.append(self.WN)
+				WN = Knight(f"{path}white_knight.png")
+				WN.decimal += self.convert_string_to_bitboard(Binary)
+				WN.bitwise = Binary
+				WN.position = (int(i/8), int(i%8))
+				general_list.append(WN)
 			elif value == "B":
-				self.WB.decimal += self.convert_string_to_bitboard(Binary)
-				self.WB.bitwise = Binary
-				general_list.append(self.WB)
+				WB = Bishop(f"{path}white_bishop.png")
+				WB.decimal += self.convert_string_to_bitboard(Binary)
+				WB.bitwise = Binary
+				WB.position = (int(i/8), int(i%8))
+				general_list.append(WB)
 			elif value == "Q":
-				self.WQ.decimal += self.convert_string_to_bitboard(Binary)
-				self.WQ.bitwise = Binary
-				general_list.append(self.WQ)
+				WQ = Queen(f"{path}white_queen.png")
+				WQ.decimal += self.convert_string_to_bitboard(Binary)
+				WQ.bitwise = Binary
+				WQ.position = (int(i/8), int(i%8))
+				general_list.append(WQ)
 			elif value == "K":
-				self.WK.decimal += self.convert_string_to_bitboard(Binary)
-				self.WK.bitwise = Binary
-				general_list.append(self.WK)
+				WK = King(f"{path}white_king.png")
+				WK.decimal += self.convert_string_to_bitboard(Binary)
+				WK.bitwise = Binary
+				WK.position = (int(i/8), int(i%8))
+				general_list.append(WK)
 			elif value == "p":
-				self.BP.decimal += self.convert_string_to_bitboard(Binary)
-				self.BP.bitwise = Binary
-				general_list.append(self.BP)
+				BP = Pawn(f"{path}black_pawn.png")
+				BP.decimal += self.convert_string_to_bitboard(Binary)
+				BP.bitwise = Binary
+				BP.position = (int(i/8), int(i%8))
+				general_list.append(BP)
 			elif value == "r":
-				self.BH.decimal += self.convert_string_to_bitboard(Binary)
-				self.BH.bitwise = Binary
-				general_list.append(self.BH)
+				BH = Rook(f"{path}black_rook.png")
+				BH.decimal += self.convert_string_to_bitboard(Binary)
+				BH.bitwise = Binary
+				BH.position = (int(i/8), int(i%8))
+				general_list.append(BH)
 			elif value == "n":
-				self.BN.decimal += self.convert_string_to_bitboard(Binary)
-				self.BN.bitwise = Binary
-				general_list.append(self.BN)
+				BN = Knight(f"{path}black_knight.png")
+				BN.decimal += self.convert_string_to_bitboard(Binary)
+				BN.bitwise = Binary
+				BN.position = (int(i/8), int(i%8))
+				general_list.append(BN)
 			elif value == "b":
-				self.BB.decimal += self.convert_string_to_bitboard(Binary)
-				self.BB.bitwise = Binary
-				general_list.append(self.BB)
+				BB = Bishop(f"{path}black_bishop.png")
+				BB.decimal += self.convert_string_to_bitboard(Binary)
+				BB.bitwise = Binary
+				BB.position = (int(i/8), int(i%8))
+				general_list.append(BB)
 			elif value == "q":
-				self.BQ.decimal += self.convert_string_to_bitboard(Binary)
-				self.BQ.bitwise = Binary
-				general_list.append(self.BQ)
+				BQ = Queen(f"{path}black_queen.png")
+				BQ.decimal += self.convert_string_to_bitboard(Binary)
+				BQ.bitwise = Binary
+				BQ.position = (int(i/8), int(i%8))
+				general_list.append(BQ)
 			elif value == "k":
-				self.BK.decimal += self.convert_string_to_bitboard(Binary)
-				self.BK.bitwise = Binary
-				general_list.append(self.BK)
+				# BK = 
+				BK = King(f"{path}black_king.png")
+				BK.decimal += self.convert_string_to_bitboard(Binary)
+				BK.bitwise = Binary
+				BK.position = (int(i/8), int(i%8))
+				general_list.append(BK)
 			else:
 				pass
+		for i in general_list:
+			i.generate_position()
 		# print(WP, WH, WN, WB, WQ, WK, BP, BH, BN, BB, BQ, BK)
 		# self.draw_array(WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
 		return general_list
