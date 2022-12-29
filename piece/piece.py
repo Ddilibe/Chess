@@ -35,7 +35,8 @@ class Piece(object):
 			"Position": self.position,
 			"Bitwise" : self.bitwise,
 			"Decimal" : self.decimal,
-			"Image Path": self.image_path
+			"Image Path": self.image_path,
+			f"{self.name} Value": self.piecevalue
 		}
 		return formate
 
