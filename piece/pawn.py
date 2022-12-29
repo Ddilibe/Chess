@@ -8,5 +8,7 @@ from piece import Piece
 
 class Pawn(Piece):
 
-	def __init__(self):
-		super.__init__(self)
+	name = "pawn"
+	def __init__(self, image_path):
+		super().__init__(image_path)
+		self.name = "pawn"

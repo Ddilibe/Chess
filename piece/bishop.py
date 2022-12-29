@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ #!/usr/bin/env python
 
 """
 	Script containing the bishop chess piece for the chess game
@@ -8,5 +8,7 @@ from piece import Piece
 
 class Bishop(Piece):
 
-	def __init__(self):
-		super.__init__(self)
+	name = "bishop"
+	def __init__(self, image_path):
+		Piece.__init__(self, image_path)
+		self.name = "bishop"

@@ -8,5 +8,6 @@ from piece import Piece
 
 class Knight(Piece):
 
-	def __init__(self):
-		super.__init__(self)
+	name = "knight"
+	def __init__(self, image_path):
+		Piece.__init__(self, image_path)
