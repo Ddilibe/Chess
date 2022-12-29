@@ -215,7 +215,14 @@ class BoardGeneration():
 			print(i)
 
 	def generate_decimal(self, binary):
-		""" Function for deriving the denary form of the binary """
+		""" Function for deriving the denary form of the binary 
+
+			Arguments:
+				binary: The binary integer to be changed to decimal form
+
+			Return:
+				This method returns the decimal form of the argument
+		"""
 		w = 0
 		for i in range(len(binary)):
 			w += int(binary[-(i + 1)]) * (2 ** i)
