@@ -12,7 +12,7 @@ class BoardGeneration():
 		self.BP, self.BH, self.BQ, self.BN, self.BB, self.BK = BP, BH, BQ, BN, BB, BK
 		self.WP.decimal, self.WH.decimal, self.WQ.decimal, self.WN.decimal, self.WB.decimal, self.WK.decimal = 0, 0, 0, 0, 0, 0
 		self.BP.decimal, self.BH.decimal, self.BQ.decimal, self.BN.decimal, self.BB.decimal, self.BK.decimal = 0, 0, 0, 0, 0, 0
-		chessboard = [
+		self.chessboard = [
 			["r", "n", "b", "q", "k", "b", "n", "r"],
 			["p", "p", "p", "p", "p", "p", "p", "p"],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
@@ -27,7 +27,7 @@ class BoardGeneration():
 	def initiate_chess_960(self):
 		self.WP.decimal, self.WH.decimal, self.WQ.decimal, self.WN.decimal, self.WB.decimal, self.WK.decimal = 0, 0, 0, 0, 0, 0
 		self.BP.decimal, self.BH.decimal, self.BQ.decimal, self.BN.decimal, self.BB.decimal, self.BK.decimal = 0, 0, 0, 0, 0, 0
-		chessboard = [
+		self.chessboard = [
 			[" ", " ", " ", " ", " ", " ", " ", " "],
 			["p", "p", "p", "p", "p", "p", "p", "p"],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
@@ -89,9 +89,9 @@ class BoardGeneration():
 				j += 1
 			if j >= 3:
 				break
-		self.array_to_bitboard(chessboard)
+		self.array_to_bitboard()
 
-	def array_to_bitboard(self, chessboard):
+	def array_to_bitboard(self):
 		""" 
 		Method that converts a string to binary
 
@@ -123,7 +123,7 @@ class BoardGeneration():
 		for i in range(64):
 			Binary = "0"*64
 			Binary = Binary[i+1:] + "1" + "".join(list(Binary)[0:i])
-			value = chessboard[int(i/8)][int(i%8)]
+			value = self.chessboard[int(i/8)][int(i%8)]
 			if value == "P":
 				self.WP.decimal += self.convert_string_to_bitboard(Binary)
 				self.WP.bitwise = Binary
@@ -176,7 +176,7 @@ class BoardGeneration():
 				pass
 		# print(WP, WH, WN, WB, WQ, WK, BP, BH, BN, BB, BQ, BK)
 		# self.draw_array(WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
-		return (general_list)
+		return general_list
 
 	def convert_string_to_bitboard(self, binary):
 		""" Method for converting string to bitboard """
