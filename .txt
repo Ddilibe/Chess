@@ -38,3 +38,20 @@ class Moves(object):
 
 		PAWN_MOVES = (WP>>7)&BLACK_PIECES&~RANK_8&~FILE_A
 		
+
+from enum import Enum
+
+class ChessPieceColor(Enum):
+	white = "White"
+	black = "Black"
+
+class ChessPieceType(Enum):
+	"""
+		Class containing the enumeration of all the chess types
+	"""
+	king = King
+	rook = Rook
+	pawn = Pawn
+	queen = Queen
+	knight = Knight
+	bishop = Bishop
