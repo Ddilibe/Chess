@@ -132,7 +132,7 @@ class BoardGeneration():
 			number before assigning it to a variable.
 
 		"""
-		Binary, general_list, path = None, [], f"{dir_path}/media/image/image_1/"
+		Binary, general_list, path = None, [], f"{dir_path}/media/image/image_17/"
 		chess_pieses = {
 			"P" : [Pawn, f"{path}white_pawn.png"],
 			"R"	: [Rook, f"{path}white_rook.png"],

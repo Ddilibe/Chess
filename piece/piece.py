@@ -5,6 +5,7 @@
 """
 
 import pygame
+from uuid import uuid4
 
 class Piece(object):
 	"""
@@ -21,16 +22,25 @@ class Piece(object):
 				self.__name: Containing the name of the chess piece
 				self.image_path: Containing the path to the image
 		"""
-		self.position = 0
+		value = uuid4()
+		self.id = value.hex
+		self.__position = 0
 		self.bitwise = 0
-		self.__name = None
+		self.name = None
 		self.image_path = image_path
 		self.decimal = 0
 
 	def __dict__(self):
 		""" Method for the ditionary representation of the class """
-
-		pass
+		formate = {
+			"id" : self.id,
+			"Name": self.name,
+			"Position": self.position,
+			"Bitwise" : self.bitwise,
+			"Decimal" : self.decimal,
+			"Image Path": self.image_path
+		}
+		return formate
 
 	def move(self):
 		pass
@@ -38,45 +48,30 @@ class Piece(object):
 	def capture(self):
 		pass
 
-	def __str__(self, name):
+	@property	
+	def position(self):
+		""" Method for getting the private position attribute """
+		return self.__position
+
+	@position.setter
+	def position(self, position):
+		""" Method for setting the private position attribute """
+		self.__position = position
+
+	def __str__(self):
 		""" Method for changing the string representation of the class """
-		return f"<{Piece} -- {name}>"
+		return f"< --\n\tName: {self.name}\n\tPosition: {self.position}\n\tBitwise: {self.bitwise}\n>"
 
 	def display(self, app):
 		""" Method for displaying the chess piece on the board """
 		img = pygame.image.load(self.image_path)
+		# print(self.position)
 		app.blit(img, self.position)
 
-	def generate_position(self, width, height):
+	def generate_position(self):
 		""" Method for generating the position using the bitwise """
-		one = self.bitwise
-		ones = self.bitwise.index("1")
-		ones = 64 - ones
-		ones = "".join((oct(ones)).split("0o")[1])
-		print(ones, width, height)
-		if ones == "100":
-			self.position = (width/80, height/80)
-			return
-		if len(ones) == 1:
-			if int(ones) <= 8:
-				self.position = (0, height/int(ones))
-			else:
-				self.position = (20, height/int(ones))
-			return
-		try:
-			width = width/int(list(ones)[0])
-		except Exception as e:
-			pass
-		else:
-			width = 0
-		try:
-			height = height/int(list(ones)[1])
-		except Exception as e:
-			pass
-		else:
-			height = 0
-		self.position = (width , height)
-
+		self.position = (self.position[0] * 80, self.position[1] * 80)
+		# print(self, self.position)
 
 
 
