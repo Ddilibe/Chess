@@ -4,6 +4,8 @@
 	Script containing the moves for the chess engine
 """
 
+import timeit
+
 class Moves(object):
 	"""docstring for Moves"""
 	def __init__(self, arg):
@@ -36,5 +38,88 @@ class Moves(object):
 	def possible_wp(self, history, WP):
 		list_of_white_pawn_moves = ""
 
+		# This first section of the possible wp is for the pawn to capture right
 		PAWN_MOVES = (WP>>7)&BLACK_PIECES&~RANK_8&~FILE_A
+		i = self.count_trailing_zeros(PAWN_MOVES)
+		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
+			if (((PAWN_MOVES>>i)&1)==1):
+				list_of_white_pawn_moves+= "" + str(i/8+1) + str(i%8-1) + str(i/8) + str(i%8)
+			i += 1
+
+		# This second section is for calculating the possible moves for the white pawn to capture left
+		PAWN_MOVES = (WP >> 9) & BLACK_PIECES &~ RANK_8 &~ FILE_H
+		i = self.count_trailing_zeros(PAWN_MOVES)
+		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
+			if (((PAWN_MOVES>>i)&1)==1):
+				list_of_white_pawn_moves+= "" + str(i/8+1) + str(i%8-1) + str(i/8) + str(i%8)
+			i += 1
+
+		# This third section id for calculating the possible moves for the white pawn to take one step forward
+		PAWN_MOVES = (WP >> 8) & EMPTY &~ RANK_8
+		i = self.count_trailing_zeros(PAWN_MOVES)
+		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
+			if (((PAWN_MOVES>>i)&1)==1):
+				list_of_white_pawn_moves+= "" + str(i/8+1) + str(i%8) + str(i/8) + str(i%8)
+			i += 1
+
+		# This fourth section is for calcuting the possible moves for the white pawn to take two steps forward
+		PAWN_MOVES = (WP >> 16) & EMPTY & (EMPTY >> 8) & RANK_4
+		i = self.count_trailing_zeros(PAWN_MOVES)
+		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
+			if (((PAWN_MOVES>>i)&1)==1):
+				list_of_white_pawn_moves+= "" + str(i/8+2) + str(i%8) + str(i/8) + str(i%8)
+
+			i+= 1
+
+		# Promotion Section
+		# This fifth section is for the pawn promotion when it captures the enemy from the right
+		PAWN_MOVES = (WP >> 7) & BLACK_PIECES & RANK_8 &~ FILE_A
+		i = self.count_trailing_zeros(PAWN_MOVES)
+		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
+			if (((PAWN_MOVES>>i)&1)==1):
+				list_of_white_pawn_moves+= "" + str(i%8-1) + str(i%8) + "QP" + str(i%8-1) + str(i%8) + "RP" + str(i%8-1) + str(i%8) + "BP" + str(i%8-1) + str(i%8) "NP"
+			i += 1
+
+		# This Sixth section is for the pawn promotion when it captures the enemy from the left
+		PAWN_MOVES = (WP >> 9) & BLACK_PIECES & RANK_8 &~ FILE_H
+		i = self.count_trailing_zeros(PAWN_MOVES)
+		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
+			if (((PAWN_MOVES>>i)&1)==1):
+				list_of_white_pawn_moves+= "" + str(i%8+1) + str(i%8) + "QP" + str(i%8+1) + str(i%8) + "RP" + str(i%8+1) + str(i%8) + "BP" + str(i%8+1) + str(i%8) "NP"
+			i += 1
+
+		# The seventh section is for the pawn to be promoted when it moves one step forward with out capture
+		PAWN_MOVES = (WP >> 8) & EMPTY & RANK_8
+		i = self.count_trailing_zeros(PAWN_MOVES)
+		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
+			if (((PAWN_MOVES>>i)&1)==1):
+				list_of_white_pawn_moves+= "" + str(i%8-1) + str(i%8) + "QP" + str(i%8-1) + str(i%8) + "RP" + str(i%8-1) + str(i%8) + "BP" + str(i%8-1) + str(i%8) "NP"
+			i += 1
+
+		return list_of_white_pawn_moves
+
+	def count_trailing_zeros(self, value):
+		zeros = 0
+		for i in range(len(bin(value).split("0b")[1])):
+			if value[-i+1] != str(0):
+				break
+			zero += 1
+		return zero
+
+	def draw_bitboard(self, bitBoard):
+		chessboard = [[" " for j in range(8)] for j in range(8)]
+		urshift = lambda (val, n) : (val % 0x10) >> n
+		for i in range(64):
+			if ((urshift(bitBoard, i) & 1) == 1):
+				chessboard[i/8][i%8] = "P"
+
+		for i in chessboard:
+			print(i)
+
+
+	# def urshift(self, value):
+	# 	"""
+	# 		Abbrv for Unsigned Right Bit Shift Operator
+	# 		Method for trying to implement the unsigned right bit shift operator in java
+	# 	"""
 		
