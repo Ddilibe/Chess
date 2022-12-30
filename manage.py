@@ -5,16 +5,32 @@
 """
 
 from engine.boardgeneration import BoardGeneration
+from scene import place, dir_path
 from piece.knight import Knight
 from piece.bishop import Bishop
 from piece.queen import Queen
 from piece.rook import Rook
 from piece.king import King
 from piece.pawn import Pawn
-from scene import place, dir_path
+from enum import Enum
 import random
 import pygame
 import scene
+
+class ChessPieceColor(Enum):
+	white = "White"
+	black = "Black"
+
+class ChessPieceType(Enum):
+	"""
+		Class containing the enumeration of all the chess types
+	"""
+	king = King
+	rook = Rook
+	pawn = Pawn
+	queen = Queen
+	knight = Knight
+	bishop = Bishop
 
 class App:
 	""" Create a single-window app with multiple Scenes. """
