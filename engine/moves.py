@@ -116,6 +116,31 @@ class Moves(object):
 		for i in chessboard:
 			print(i)
 
+	def time_expermiment(self, WP):
+		looplength = 1000
+		cal1, cal2 = self.etmethoda(looplength, WP), self.etmethodb(looplength, WP)
+		print(f"That took {timeit.timeit(str(cal1), number=1)} to complete for the first method")
+		print(f"That took {timeit.timeit(str(cal2), number=1)} to complete for the second method")
+
+	def etmethoda(self, looplength, WP):
+		for loop in range(looplength):
+			PAWN_MOVES = (WP >> 7) & BLACK_PIECES &~ RANK_8 &~ FILE_A
+			list_of_white_pawn_moves = ""
+			for i in range(64):
+				if ((PAWN_MOVES >> i) & 1) == 1:
+					list += "" + (i/8+1) + (i%8-1) + (i/8) + (i%8)
+
+	def etmethodb(self, looplength, WP):
+		for loop in range(looplength):
+			PAWN_MOVES = (WP >> 7) & BLACK_PIECES &~ RANK_8 &~ FILE_A
+			list_of_white_pawn_moves, possibility = "", PAWN_MOVES &~ (PAWN_MOVES - 1)
+			while possibility != 0:
+				index = self.count_trailing_zeros(possibility)
+				list += "" + (index/8+1) + (index%8-1) + (index/8) + (index%8)
+				PAWN_MOVES &=~ possibility
+				possibility = PAWN_MOVES &~ (PAWN_MOVES - 1)
+
+
 
 	# def urshift(self, value):
 	# 	"""
