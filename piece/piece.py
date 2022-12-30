@@ -12,7 +12,7 @@ class Piece(object):
 		Parent class for the chess pieces
 	"""
 
-	def __init__(self, image_path):
+	def __init__(self, image_path, color=None):
 		"""
 			Method for declaraing and initiating the chess piece
 
@@ -22,13 +22,10 @@ class Piece(object):
 				self.__name: Containing the name of the chess piece
 				self.image_path: Containing the path to the image
 		"""
-		value = uuid4()
-		self.id = value.hex
-		self.__position = 0
-		self.bitwise = 0
-		self.name = None
-		self.image_path = image_path
-		self.decimal = 0
+		value, self.selected, self.__piecevalue = uuid4(), False, 0
+		self.id, self.__position, self.bitwise = value.hex, (0, 0), 0
+		self.name, self.image_path, self.decimal = None, image_path, 0
+		self.color = color
 
 	def __dict__(self):
 		""" Method for the ditionary representation of the class """
@@ -57,6 +54,16 @@ class Piece(object):
 	def position(self, position):
 		""" Method for setting the private position attribute """
 		self.__position = position
+
+	@property
+	def piecevalue(self):
+		""" Method for returning the private attribute piecevalue """
+		return self.__piecevalue
+
+	@piecevalue.setter
+	def piecevalue(self, piecevalue):
+		""" Method for assigning a value to the private attribute piecevalue """
+		self.__piecevalue = piecevalue
 
 	def __str__(self):
 		""" Method for changing the string representation of the class """

@@ -11,4 +11,4 @@ class Queen(Piece):
 	name = "queen"
 	def __init__(self, image_path):
 		super().__init__( image_path)
-		self.name = "queen"
+		self.name, self.piecevalue = "queen", 975

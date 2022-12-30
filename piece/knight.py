@@ -11,3 +11,4 @@ class Knight(Piece):
 	name = "knight"
 	def __init__(self, image_path):
 		Piece.__init__(self, image_path)
+		self.name, self.piecevalue = "Knight", 320
