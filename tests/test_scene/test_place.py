@@ -8,14 +8,15 @@ import unittest
 from scene.place import Scene
 from manage import App
 
-class TestScene(TestCase):
+class TestScene(unittest.TestCase):
 
 	def setUp(self):
 		print("Seen you")
-		self.scene = Scene(App.screen)
+		self.app = App()
+		self.scene = Scene(self.app.screen)
 
 	def test_scene(self):
 		self.assertEqual(self.scene, self.scene)
 
 	def test_default_widget_size(self):
-		self.assertEqual(self.widget.size(), (50,50),'incorrect default size')
+		self.assertEqual(self.app.screen.get_size(), (640,640),'incorrect default size')
