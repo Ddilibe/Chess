@@ -13,7 +13,7 @@ class Piece(Moves):
 		Parent class for the chess pieces
 	"""
 
-	def __init__(self, image_path, color=None):
+	def __init__(self, image_path, color):
 		"""
 			Method for declaraing and initiating the chess piece
 
@@ -34,10 +34,11 @@ class Piece(Moves):
 		formate = {
 			"id" : self.id,
 			"Name": self.name,
-			"Position": self.position,
-			"Selected": self.selected,
+			"Color": self.color,
 			"Bitwise" : self.bitwise,
 			"Decimal" : self.decimal,
+			"Position": self.position,
+			"Selected": self.selected,
 			"Image Path": self.image_path,
 			f"{str(self.name).capitalize()} Value": self.piecevalue
 		}
