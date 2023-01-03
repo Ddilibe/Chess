@@ -151,7 +151,6 @@ class BoardGeneration():
 			Binary = "0"*64
 			Binary = Binary[i+1:] + "1" + "".join(list(Binary)[0:i])
 			value = chessboard[int(i/8)][int(i%8)]
-			print(int(i/8), int(i%8))
 			if value in chess_pieses.keys():
 				piece = chess_pieses.get(value)
 				A_piece = piece[0](piece[1])

@@ -54,23 +54,42 @@ class App:
 
 	def run(self):
 		"""Run the main event loop."""
-		scen = place.Scene(App.screen)
+		scen, clicked = place.Scene(App.screen), 0
 		places_pressed = []
 		while App.running:
 			self.clock.tick(40)
+			pressed = 0
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					App.running = False
 				elif event.type == pygame.MOUSEBUTTONDOWN:
-					places_pressed.append(event)
+					recent_pos, pressed = pygame.mouse.get_pos(), 1
+					clicked += 1
 				elif event.type == pygame.MOUSEBUTTONUP:
 					# print(event)
 					pass
-
 			App.screen.fill(pygame.Color('gray'))
 			scen.display_image()
+			base8 = lambda a, b : (int(a/80)*80, int(b/80)*80)
 			for i in self.array:
+				try:
+					if pressed == 1 :
+						recent_int = base8(*recent_pos)
+						if i.selected == True and clicked == 2: 
+							setattr(i, "position", recent_int )
+							i.selected = False
+							# print("it has moved")
+							# print(i.position, recent_int, clicked, i)
+						elif clicked == 1 and i.position == recent_int:
+							i.selected = True
+							# print("it has been selected")
+							# print(i.position, recent_int, clicked, i)
+				except Exception as e:
+					pass
 				i.display(App.screen)
+			if clicked >= 2:
+				clicked = 0
+
 			# App.t.draw()
 			pygame.display.update()
 

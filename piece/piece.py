@@ -6,8 +6,9 @@
 
 import pygame
 from uuid import uuid4
+from engine.moves import Moves
 
-class Piece(object):
+class Piece(Moves):
 	"""
 		Parent class for the chess pieces
 	"""
@@ -22,6 +23,7 @@ class Piece(object):
 				self.__name: Containing the name of the chess piece
 				self.image_path: Containing the path to the image
 		"""
+		Moves.__init__(self)
 		value, self.selected, self.__piecevalue = uuid4(), False, 0
 		self.id, self.__position, self.bitwise = value.hex, (0, 0), 0
 		self.name, self.image_path, self.decimal = None, image_path, 0
@@ -33,10 +35,11 @@ class Piece(object):
 			"id" : self.id,
 			"Name": self.name,
 			"Position": self.position,
+			"Selected": self.selected,
 			"Bitwise" : self.bitwise,
 			"Decimal" : self.decimal,
 			"Image Path": self.image_path,
-			f"{self.name} Value": self.piecevalue
+			f"{str(self.name).capitalize()} Value": self.piecevalue
 		}
 		return formate
 
@@ -68,7 +71,12 @@ class Piece(object):
 
 	def __str__(self):
 		""" Method for changing the string representation of the class """
-		return f"< --\n\tName: {self.name}\n\tPosition: {self.position}\n\tBitwise: {self.bitwise}\n>"
+		value = "< --"
+		for keys, values in self.__dict__().items():
+			value += f"\n\t{keys}: {values}"
+		value += "\n>"
+		# return f"< --\n\tName: {self.name}\n\tPosition: {self.position}\n\tBitwise: {self.bitwise}\n>"
+		return value
 
 	def display(self, app):
 		""" Method for displaying the chess piece on the board """
