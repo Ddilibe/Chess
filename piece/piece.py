@@ -13,7 +13,7 @@ class Piece(Moves):
 		Parent class for the chess pieces
 	"""
 
-	def __init__(self, image_path, color):
+	def __init__(self, image_path, color, symbol):
 		"""
 			Method for declaraing and initiating the chess piece
 
@@ -24,10 +24,10 @@ class Piece(Moves):
 				self.image_path: Containing the path to the image
 		"""
 		Moves.__init__(self)
-		value, self.selected, self.__piecevalue = uuid4(), False, 0
-		self.id, self.__position, self.bitwise = value.hex, (0, 0), 0
+		value, self.selected, self._piecevalue = uuid4(), False, 0
+		self.id, self._position, self.bitwise = value.hex, (0, 0), 0
 		self.name, self.image_path, self.decimal = None, image_path, 0
-		self.color = color
+		self.color, self._symbol = color, None
 
 	def __dict__(self):
 		""" Method for the ditionary representation of the class """
@@ -35,6 +35,7 @@ class Piece(Moves):
 			"id" : self.id,
 			"Name": self.name,
 			"Color": self.color,
+			"Symbol": self.symbol,
 			"Bitwise" : self.bitwise,
 			"Decimal" : self.decimal,
 			"Position": self.position,
@@ -53,22 +54,32 @@ class Piece(Moves):
 	@property	
 	def position(self):
 		""" Method for getting the private position attribute """
-		return self.__position
+		return self._position
 
 	@position.setter
 	def position(self, position):
 		""" Method for setting the private position attribute """
-		self.__position = position
+		self._position = position
 
 	@property
 	def piecevalue(self):
 		""" Method for returning the private attribute piecevalue """
-		return self.__piecevalue
+		return self._piecevalue
 
 	@piecevalue.setter
 	def piecevalue(self, piecevalue):
 		""" Method for assigning a value to the private attribute piecevalue """
-		self.__piecevalue = piecevalue
+		self._piecevalue = piecevalue
+
+	@property
+	def symbol(self):
+		""" Method for returning the private instance variable symbol """
+		return self._symbol
+	
+	@symbol.setter
+	def symbol(self, sym):
+		""" Method for assigning a new variable to the new private intance attribute symbol """
+		self._symbol = sym
 
 	def __str__(self):
 		""" Method for changing the string representation of the class """
@@ -89,6 +100,8 @@ class Piece(Moves):
 		""" Method for generating the position using the bitwise """
 		self.position = (self.position[0] * 80, self.position[1] * 80)
 		# print(self, self.position)
+
+
 
 
 
