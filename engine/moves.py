@@ -170,8 +170,11 @@ class Moves(object):
 
 
 	def in_figures(self, value: int) -> None:
-		for i in range(4):
-			print(str(bin(value)).split("0b")[1][i*8: (i+1)*8])
+		for i in range(8):
+			try:
+				print(str(bin(value)).split("0b")[1][i*8: (i+1)*8])
+			except Exception:
+				pass
 
 	# def urshift(self, value):
 	# 	"""
