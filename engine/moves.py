@@ -38,7 +38,7 @@ class Moves(object):
 		movies = self.possible_wp(history, WP)
 		return movies
 
-	def visuals(self, lst: Sequence[List[]]) -> dict:
+	def visuals(self, lst: Sequence[list]) -> dict:
 		pieces = {}
 		for i in lst:
 			try:
@@ -61,14 +61,14 @@ class Moves(object):
 		return movies
 
 	def possible_wp(self, history, WP):
-		list_of_white_pawn_moves = ""
+		list_of_white_pawn_moves = []
 
 		# This first section of the possible wp is for the pawn to capture right
 		PAWN_MOVES = (WP>>7)&self.BLACK_PIECES&~self.RANK_8&~self.FILE_A
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves+= "" + str(i/8+1) + str(i%8-1) + str(i/8) + str(i%8)
+				list_of_white_pawn_moves.append("" + str(int(i/8+1)) + " " + str(int(i%8-1)) + " " + str(int(i/8)) + " " + str(int(i%8)))
 			i += 1
 
 		# This second section is for calculating the possible moves for the white pawn to capture left
@@ -76,7 +76,7 @@ class Moves(object):
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves+= "" + str(i/8+1) + str(i%8-1) + str(i/8) + str(i%8)
+				list_of_white_pawn_moves.append("" + str(int(i/8+1)) + " " + str(int(i%8-1)) + " " + str(int(i/8)) + " " + str(int(i%8)))
 			i += 1
 
 		# This third section id for calculating the possible moves for the white pawn to take one step forward
@@ -84,7 +84,7 @@ class Moves(object):
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves+= "" + str(i/8+1) + str(i%8) + str(i/8) + str(i%8)
+				list_of_white_pawn_moves.append("" + str(int(i/8+1)) + " " + str(int(i%8)) + " " + str(int(i/8)) + " " + str(int(i%8)))
 			i += 1
 
 		# This fourth section is for calcuting the possible moves for the white pawn to take two steps forward
@@ -92,7 +92,7 @@ class Moves(object):
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves+= "" + str(i/8+2) + str(i%8) + str(i/8) + str(i%8)
+				list_of_white_pawn_moves.append("" + str(int(i/8+2)) + " " + str(int(i%8)) + " " + str(int(i/8)) + " " + str(int(i%8)))
 
 			i+= 1
 
@@ -102,7 +102,7 @@ class Moves(object):
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves+= "" + str(i%8-1) + str(i%8) + "QP" + str(i%8-1) + str(i%8) + "RP" + str(i%8-1) + str(i%8) + "BP" + str(i%8-1) + str(i%8) + "NP"
+				list_of_white_pawn_moves.append("" + str(i%8-1) + str(i%8) + "QP" + str(i%8-1) + str(i%8) + "RP" + str(i%8-1) + str(i%8) + "BP" + str(i%8-1) + str(i%8) + "NP")
 			i += 1
 
 		# This Sixth section is for the pawn promotion when it captures the enemy from the left
@@ -110,7 +110,7 @@ class Moves(object):
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves+= "" + str(i%8+1) + str(i%8) + "QP" + str(i%8+1) + str(i%8) + "RP" + str(i%8+1) + str(i%8) + "BP" + str(i%8+1) + str(i%8) + "NP"
+				list_of_white_pawn_moves.append("" + str(i%8+1) + str(i%8) + "QP" + str(i%8+1) + str(i%8) + "RP" + str(i%8+1) + str(i%8) + "BP" + str(i%8+1) + str(i%8) + "NP")
 			i += 1
 
 		# The seventh section is for the pawn to be promoted when it moves one step forward with out capture
@@ -118,21 +118,14 @@ class Moves(object):
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves+= "" + str(i%8-1) + str(i%8) + "QP" + str(i%8-1) + str(i%8) + "RP" + str(i%8-1) + str(i%8) + "BP" + str(i%8-1) + str(i%8) + "NP"
+				list_of_white_pawn_moves.append("" + str(i%8-1) + str(i%8) + "QP" + str(i%8-1) + str(i%8) + "RP" + str(i%8-1) + str(i%8) + "BP" + str(i%8-1) + str(i%8) + "NP")
 			i += 1
 
 		return list_of_white_pawn_moves
 
 	def count_trailing_zeros(self, value):
-		zero = 0
-		# print(bin(value).split("0b")[1])
-		if len(str(value)) > 1:
-			for i in range(len(bin(value).split("0b")[1])):
-				if str(value)[-i+1] != str(0):
-					print(i)
-					break
-				zero += 1
-		return zero
+		zeros = str(value)
+		return len(zeros) - len(zeros.rstrip('0'))
 
 	def draw_bitboard(self, bitBoard):
 		chessboard = [[" " for j in range(8)] for j in range(8)]
