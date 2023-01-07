@@ -9,6 +9,7 @@ import timeit
 class Moves(object):
 	"""docstring for Moves"""
 	def __init__(self):
+		""" Method to initiate the Moves class """
 		self.FILE_A=72340172838076673
 		self.FILE_H=-9187201950435737472
 		self.FILE_AB=217020518514230019
@@ -28,18 +29,18 @@ class Moves(object):
 		self.EMPTY = None
 
 	def possible_moves_white(self, history, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
-		self.NOT_WHITE_PIECES = not(WP, WH, WQ, WN, WB, WK, BK)
-		self.BLACK_PIECES = (BP, BH, BQ, BN, BB)
-		self.EMPTY = not(WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK)
+		self.NOT_WHITE_PIECES = ~(WP|WH|WQ|WN|WB|WK|BK)
+		self.BLACK_PIECES = (BP|BH|BQ|BN|BB)
+		self.EMPTY = ~(WP|WH|WQ|WN|WB|WK|BP|BH|BQ|BN|BB|BK)
 		self.time_expermiment(WP)
-		movies = possible_wp(history, WP)
+		movies = self.possible_wp(history, WP)
 		return movies
 
 	def possible_wp(self, history, WP):
 		list_of_white_pawn_moves = ""
 
 		# This first section of the possible wp is for the pawn to capture right
-		PAWN_MOVES = (self.WP>>7)&self.BLACK_PIECES&~self.RANK_8&~self.FILE_A
+		PAWN_MOVES = (WP>>7)&self.BLACK_PIECES&~self.RANK_8&~self.FILE_A
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
@@ -47,7 +48,7 @@ class Moves(object):
 			i += 1
 
 		# This second section is for calculating the possible moves for the white pawn to capture left
-		PAWN_MOVES = (self.WP >> 9) & self.BLACK_PIECES &~ self.RANK_8 &~ self.FILE_H
+		PAWN_MOVES = (WP >> 9) & self.BLACK_PIECES &~ self.RANK_8 &~ self.FILE_H
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
@@ -55,7 +56,7 @@ class Moves(object):
 			i += 1
 
 		# This third section id for calculating the possible moves for the white pawn to take one step forward
-		PAWN_MOVES = (self.WP >> 8) & self.EMPTY &~ self.RANK_8
+		PAWN_MOVES = (WP >> 8) & self.EMPTY &~ self.RANK_8
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
@@ -63,7 +64,7 @@ class Moves(object):
 			i += 1
 
 		# This fourth section is for calcuting the possible moves for the white pawn to take two steps forward
-		PAWN_MOVES = (self.self.WP >> 16) & self.self.EMPTY & (self.self.EMPTY >> 8) & self.self.RANK_4
+		PAWN_MOVES = (WP >> 16) & self.EMPTY & (self.EMPTY >> 8) & self.RANK_4
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
@@ -73,7 +74,7 @@ class Moves(object):
 
 		# Promotion Section
 		# This fifth section is for the pawn promotion when it captures the enemy from the right
-		PAWN_MOVES = (self.WP >> 7) & self.BLACK_PIECES & self.RANK_8 &~ self.FILE_A
+		PAWN_MOVES = (WP >> 7) & self.BLACK_PIECES & self.RANK_8 &~ self.FILE_A
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
@@ -81,7 +82,7 @@ class Moves(object):
 			i += 1
 
 		# This Sixth section is for the pawn promotion when it captures the enemy from the left
-		PAWN_MOVES = (self.WP >> 9) & self.BLACK_PIECES & self.RANK_8 &~ self.FILE_H
+		PAWN_MOVES = (WP >> 9) & self.BLACK_PIECES & self.RANK_8 &~ self.FILE_H
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
@@ -89,7 +90,7 @@ class Moves(object):
 			i += 1
 
 		# The seventh section is for the pawn to be promoted when it moves one step forward with out capture
-		PAWN_MOVES = (self.WP >> 8) & self.EMPTY & self.RANK_8
+		PAWN_MOVES = (WP >> 8) & self.EMPTY & self.RANK_8
 		i = self.count_trailing_zeros(PAWN_MOVES)
 		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
 			if (((PAWN_MOVES>>i)&1)==1):
@@ -99,11 +100,14 @@ class Moves(object):
 		return list_of_white_pawn_moves
 
 	def count_trailing_zeros(self, value):
-		zeros = 0
-		for i in range(len(bin(value).split("0b")[1])):
-			if value[-i+1] != str(0):
-				break
-			zero += 1
+		zero = 0
+		# print(bin(value).split("0b")[1])
+		if len(str(value)) > 1:
+			for i in range(len(bin(value).split("0b")[1])):
+				if str(value)[-i+1] != str(0):
+					print(i)
+					break
+				zero += 1
 		return zero
 
 	def draw_bitboard(self, bitBoard):
@@ -131,7 +135,7 @@ class Moves(object):
 					list += "" + (i/8+1) + (i%8-1) + (i/8) + (i%8)
 
 	def etmethodb(self, looplength, WP):
-		for loop in range(self.looplength):
+		for loop in range(looplength):
 			PAWN_MOVES = (WP >> 7) & self.BLACK_PIECES &~ self.RANK_8 &~ self.FILE_A
 			list_of_white_pawn_moves, possibility = "", PAWN_MOVES &~ (PAWN_MOVES - 1)
 			while possibility != 0:
