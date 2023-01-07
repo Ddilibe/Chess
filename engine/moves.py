@@ -5,6 +5,8 @@
 """
 
 import timeit
+from typing import List, Tuple, Sequence
+from chesstype import ChessPieceType
 
 class Moves(object):
 	"""docstring for Moves"""
@@ -28,12 +30,34 @@ class Moves(object):
 		self.BLACK_PIECES = None
 		self.EMPTY = None
 
-	def possible_moves_white(self, history, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
+	def possible_moves_white_console(self, history, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
 		self.NOT_WHITE_PIECES = ~(WP|WH|WQ|WN|WB|WK|BK)
 		self.BLACK_PIECES = (BP|BH|BQ|BN|BB)
 		self.EMPTY = ~(WP|WH|WQ|WN|WB|WK|BP|BH|BQ|BN|BB|BK)
 		self.time_expermiment(WP)
 		movies = self.possible_wp(history, WP)
+		return movies
+
+	def visuals(self, lst: Sequence[List[]]) -> dict:
+		pieces = {}
+		for i in lst:
+			try:
+				if ChessPieceType(i):
+					if pieces.get(i.symbol):
+						pieces[i.symbol] += i.decimal
+					else:
+						pieces[i.symbol] = i.decimal
+			except Exception as e:
+				raise ChessTypeError()
+		self.possible_moves_white_visuals("history", **pieces)
+		return pieces
+
+	def possible_moves_white_visuals(self, history, **kwargs):
+		self.NOT_WHITE_PIECES = ~(kwargs["WP"]|kwargs['WH']|kwargs['WQ']|kwargs['WN']|kwargs['WB']|kwargs['WK']|kwargs['BK'])
+		self.BLACK_PIECES = (kwargs["BP"]|kwargs["BH"]|kwargs["BQ"]|kwargs["BN"]|kwargs["BB"])
+		self.EMPTY = ~(kwargs["WP"]|kwargs["WH"]|kwargs["WQ"]|kwargs["WN"]|kwargs["WB"]|kwargs["WK"]|kwargs["BP"]|kwargs["BH"]|kwargs["BQ"]|kwargs["BN"]|kwargs["BB"]|kwargs["BK"])
+		self.time_expermiment(kwargs['WP'])
+		movies = self.possible_wp(history, kwargs['WP'])
 		return movies
 
 	def possible_wp(self, history, WP):
@@ -145,6 +169,9 @@ class Moves(object):
 				possibility = PAWN_MOVES &~ (PAWN_MOVES - 1)
 
 
+	def in_figures(self, value: int) -> None:
+		for i in range(4):
+			print(str(bin(value)).split("0b")[1][i*8: (i+1)*8])
 
 	# def urshift(self, value):
 	# 	"""
