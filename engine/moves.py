@@ -3,10 +3,10 @@
 """
 	Script containing the moves for the chess engine
 """
-
 import timeit
 from typing import List, Tuple, Sequence
 from chesstype import ChessPieceType
+
 
 class Moves(object):
 	"""docstring for Moves"""
