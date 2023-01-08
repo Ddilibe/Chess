@@ -40,11 +40,11 @@ class BoardGeneration():
 	def initiate_normal_chess(self):
 		chessboard = [
 			["r", "n", "b", "q", "k", "b", "n", "r"],
-			["p", "p", "p", "p", "", "p", "p", "p"],
+			["p", "p", "p", "p", " ", "p", "p", "p"],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
-			[" ", " ", " ", " ", "p ", " ", " ", " "],
+			[" ", " ", " ", " ", "p", " ", " ", " "],
 			["P", "P", "P", "P", "P", "P", "P", "P"],
 			["R", "N", "B", "Q", "K", "B", "N", "R"]
 		]
@@ -167,7 +167,7 @@ class BoardGeneration():
 		for i in range(64):
 			Binary = "0"*64
 			Binary = Binary[i+1:] + "1" + "".join(list(Binary)[0:i])
-			value = chessboard[int(i/8)][int(i%8)]
+			value = chessboard[int(i%8)][int(i/8)]
 			if value in chess_pieses.keys():
 				piece = chess_pieses.get(value)
 				A_piece = piece[0](*piece[1])
