@@ -3,18 +3,35 @@
 """ Script for generating the bitboard """
 
 import random
-# from scene import dir_path
-# from piece.rook import Rook
-# from piece.queen import Queen
-# from piece.king import King
-# from piece.pawn import Pawn
-# from piece.knight import Knight
-# from piece.bishop import Bishop
+from scene import dir_path
+from piece.rook import Rook
+from piece.queen import Queen
+from piece.king import King
+from piece.pawn import Pawn
+from piece.knight import Knight
+from piece.bishop import Bishop
 
+
+a = "a"
 class BoardGeneration():
 
-	def __init__(self, choose, visuals):
-		""" Method for initializing the board """
+	def __init__(self, choose: bool, visuals: bool) -> None:
+		""" 
+			Method for initializing the board's instance.
+
+			Args:
+				:param @choose [Boolean] - This argument determines whether the software is either going
+				to be launched in fisher's chess or not. It accepts a boolean value. If it is False, it will be
+				launched in fisher's chess. If it is false, it won't be launched in fisher's chess. This would
+				be used when the visuals and algorithm of the software is complete.
+				:param @visuals [Boolean] - This argument determines whether the chess visuals should display on
+				the console or on the pygame canvas. If it is true, it will be displayed on pygame's canvas. if
+				is False, it will be displayed on the console. This part of the project is meant to track down
+				mistakes easily if encountered.
+
+			Return:
+				There is no return value for this method.
+		"""
 		self.WP, self.WH, self.WQ, self.WN, self.WB, self.WK = 0, 0, 0, 0, 0, 0
 		self.BP, self.BH, self.BQ, self.BN, self.BB, self.BK = 0, 0, 0, 0, 0, 0
 		self.choose = choose
@@ -23,11 +40,11 @@ class BoardGeneration():
 	def initiate_normal_chess(self):
 		chessboard = [
 			["r", "n", "b", "q", "k", "b", "n", "r"],
-			["p", "p", "p", "p", "p", "p", "p", "p"],
+			["p", "p", "p", "p", "", "p", "p", "p"],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
-			[" ", " ", " ", " ", " ", " ", " ", " "],
+			[" ", " ", " ", " ", "p ", " ", " ", " "],
 			["P", "P", "P", "P", "P", "P", "P", "P"],
 			["R", "N", "B", "Q", "K", "B", "N", "R"]
 		]
