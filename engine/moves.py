@@ -5,8 +5,8 @@
 """
 import timeit
 from typing import List, Tuple, Sequence
-from chesstype import ChessPieceType
-
+from enum import Enum
+# from engine import a
 
 class Moves(object):
 	"""docstring for Moves"""
@@ -48,7 +48,7 @@ class Moves(object):
 					else:
 						pieces[i.symbol] = i.decimal
 			except Exception as e:
-				raise ChessTypeError()
+				raise ChessTypeError("Chess Piece Type not found")
 		self.possible_moves_white_visuals("history", **pieces)
 		return pieces
 
@@ -65,61 +65,67 @@ class Moves(object):
 
 		# This first section of the possible wp is for the pawn to capture right
 		PAWN_MOVES = (WP>>7)&self.BLACK_PIECES&~self.RANK_8&~self.FILE_A
-		i = self.count_trailing_zeros(PAWN_MOVES)
-		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
-			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves.append("" + str(int(i/8+1)) + " " + str(int(i%8-1)) + " " + str(int(i/8)) + " " + str(int(i%8)))
-			i += 1
+		possibility = PAWN_MOVES&~(PAWN_MOVES-1)
+		while possibility != 0:
+			i = self.count_trailing_zeros(PAWN_MOVES)
+			list_of_white_pawn_moves.append(((int(i/8+1),int(i%8-1)),(int(i/8),int(i%8))))
+			PAWN_MOVES&=~possibility
+			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
 
 		# This second section is for calculating the possible moves for the white pawn to capture left
 		PAWN_MOVES = (WP >> 9) & self.BLACK_PIECES &~ self.RANK_8 &~ self.FILE_H
-		i = self.count_trailing_zeros(PAWN_MOVES)
-		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
-			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves.append("" + str(int(i/8+1)) + " " + str(int(i%8-1)) + " " + str(int(i/8)) + " " + str(int(i%8)))
-			i += 1
+		possibility = PAWN_MOVES&~(PAWN_MOVES-1)
+		while possibility != 0:
+			i = self.count_trailing_zeros(PAWN_MOVES)
+			list_of_white_pawn_moves.append(((int(i/8+1),int(i%8-1)),(int(i/8),int(i%8))))
+			PAWN_MOVES&=~possibility
+			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
 
 		# This third section id for calculating the possible moves for the white pawn to take one step forward
 		PAWN_MOVES = (WP >> 8) & self.EMPTY &~ self.RANK_8
-		i = self.count_trailing_zeros(PAWN_MOVES)
-		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
-			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves.append("" + str(int(i/8+1)) + " " + str(int(i%8)) + " " + str(int(i/8)) + " " + str(int(i%8)))
-			i += 1
+		possibility = PAWN_MOVES&~(PAWN_MOVES-1)
+		while possibility != 0:
+			i = self.count_trailing_zeros(PAWN_MOVES)
+			list_of_white_pawn_moves.append(((int(i/8+1),int(i%8)),(int(i/8),int(i%8))))
+			PAWN_MOVES&=~possibility
+			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
 
 		# This fourth section is for calcuting the possible moves for the white pawn to take two steps forward
 		PAWN_MOVES = (WP >> 16) & self.EMPTY & (self.EMPTY >> 8) & self.RANK_4
-		i = self.count_trailing_zeros(PAWN_MOVES)
-		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
-			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves.append("" + str(int(i/8+2)) + " " + str(int(i%8)) + " " + str(int(i/8)) + " " + str(int(i%8)))
-
-			i+= 1
+		possibility = PAWN_MOVES&~(PAWN_MOVES-1)
+		while possibility != 0:
+			i = self.count_trailing_zeros(PAWN_MOVES)
+			list_of_white_pawn_moves.append(((int(i/8+2)),int(i%8)), (int(i/8),int(i%8)))
+			PAWN_MOVES&=~possibility
+			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
 
 		# Promotion Section
 		# This fifth section is for the pawn promotion when it captures the enemy from the right
 		PAWN_MOVES = (WP >> 7) & self.BLACK_PIECES & self.RANK_8 &~ self.FILE_A
-		i = self.count_trailing_zeros(PAWN_MOVES)
-		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
-			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves.append("" + str(i%8-1) + str(i%8) + "QP" + str(i%8-1) + str(i%8) + "RP" + str(i%8-1) + str(i%8) + "BP" + str(i%8-1) + str(i%8) + "NP")
-			i += 1
+		possibility = PAWN_MOVES&~(PAWN_MOVES-1)
+		while possibility != 0:
+			i = self.count_trailing_zeros(PAWN_MOVES)
+			list_of_white_pawn_moves.append(((int(i%8-1),int(i%8),"QP"),(int(i%8-1),int(i%8),"RP"),(int(i%8-1),int(i%8),"BP"),(int(i%8-1),int(i%8),"NP")))
+			PAWN_MOVES&=~possibility
+			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
 
 		# This Sixth section is for the pawn promotion when it captures the enemy from the left
 		PAWN_MOVES = (WP >> 9) & self.BLACK_PIECES & self.RANK_8 &~ self.FILE_H
-		i = self.count_trailing_zeros(PAWN_MOVES)
-		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
-			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves.append("" + str(i%8+1) + str(i%8) + "QP" + str(i%8+1) + str(i%8) + "RP" + str(i%8+1) + str(i%8) + "BP" + str(i%8+1) + str(i%8) + "NP")
-			i += 1
+		possibility = PAWN_MOVES&~(PAWN_MOVES-1)
+		while possibility != 0:
+			i = self.count_trailing_zeros(PAWN_MOVES)
+			list_of_white_pawn_moves.append(((int(i%8+1),int(i%8), "QP"), (int(i%8+1),int(i%8),"RP"),(int(i%8+1),int(i%8),"BP"),(int(i%8+1),int(i%8),"NP")))
+			PAWN_MOVES&=~possibility
+			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
 
 		# The seventh section is for the pawn to be promoted when it moves one step forward with out capture
 		PAWN_MOVES = (WP >> 8) & self.EMPTY & self.RANK_8
-		i = self.count_trailing_zeros(PAWN_MOVES)
-		while i < 64 - self.count_trailing_zeros(PAWN_MOVES):
-			if (((PAWN_MOVES>>i)&1)==1):
-				list_of_white_pawn_moves.append("" + str(i%8-1) + str(i%8) + "QP" + str(i%8-1) + str(i%8) + "RP" + str(i%8-1) + str(i%8) + "BP" + str(i%8-1) + str(i%8) + "NP")
-			i += 1
+		possibility = PAWN_MOVES&~(PAWN_MOVES-1)
+		while possibility != 0:
+			i = self.count_trailing_zeros(PAWN_MOVES)
+			list_of_white_pawn_moves.append(((int(i%8-1),int(i%8),"QP"),(int(i%8-1),int(i%8),"RP"),(int(i%8-1),int(i%8),"BP"),(int(i%8-1),int(i%8),"NP")))
+			PAWN_MOVES&=~possibility
+			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
 
 		return list_of_white_pawn_moves
 
@@ -175,3 +181,21 @@ class Moves(object):
 	# 		Method for trying to implement the unsigned right bit shift operator in java
 	# 	"""
 		
+# class ChessPieceColor(Enum):
+# 	""" Class containing declaration for the chess piece"""
+# 	white = "White"
+# 	black = "Black"
+
+# class ChessPieceType(Enum):
+# 	"""
+# 		Class containing the enumeration of all the chess types
+# 	"""
+# 	king = King
+# 	rook = Rook
+# 	pawn = Pawn
+# 	queen = Queen
+# 	knight = Knight
+# 	bishop = Bishop
+
+# class ChessPieceError(Exception):
+# 	pass
