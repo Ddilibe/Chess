@@ -61,6 +61,25 @@ class Moves(object):
 		return movies
 
 	def possible_wp(self, history, WP):
+		"""
+			Method is meant to predict the possible moves that a particular white pawn can make. 
+
+			Args:
+				:param @history [List[Time, str, Tuple, ChessPieceType]] - This is a list of tuples. Each tuple contains
+				the moves made while the chess game is on. This was enabled due to enable people make the en passant move in 
+				the chess software. Due to the way python's lists were structured, list can only be updated. The format of the
+				history will be 
+				< 	Time-move-was-taken
+					Which-side-took-the-move
+					position-before-the-move-was-taken
+					position-after-the-move-was-taken
+					instance-of-chess-board-after-the-move-was-taken
+						chess-piece-name
+						chess-piece-decimal
+						chess-piece-bitwise
+				>
+				:param @WP [ChessPieceType] - This argument contains the pawn instance of the chess piece that was clicked.
+		"""
 		list_of_white_pawn_moves = []
 
 		# This first section of the possible wp is for the pawn to capture right
@@ -126,6 +145,15 @@ class Moves(object):
 			list_of_white_pawn_moves.append(((int(i%8-1),int(i%8),"QP"),(int(i%8-1),int(i%8),"RP"),(int(i%8-1),int(i%8),"BP"),(int(i%8-1),int(i%8),"NP")))
 			PAWN_MOVES&=~possibility
 			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
+
+		# This section is for calculating enpassant
+		if len(history) >= 4:
+			oldpawn = history[-1]
+			if oldpawn.name == "BP":
+				# Trying to explain a code that was written in java in python. 
+				# charat returns the instanr of the 
+				# 6 - 6
+
 
 		return list_of_white_pawn_moves
 
