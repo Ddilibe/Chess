@@ -8,7 +8,6 @@ from piece import Piece
 
 class Rook(Piece):
 
-	name = "rook"
-	def __init__(self, image_path):
-		Piece.__init__(self, image_path)
-		self.name = "rook"
+	def __init__(self, image_path, color, symbol):
+		Piece.__init__(self, image_path, color, symbol)
+		self.name, self.piecevalue = "rook", 500

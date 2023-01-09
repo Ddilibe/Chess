@@ -11,10 +11,27 @@ from piece.pawn import Pawn
 from piece.knight import Knight
 from piece.bishop import Bishop
 
+
+a = "a"
 class BoardGeneration():
 
-	def __init__(self, choose, visuals):
-		""" Method for initializing the board """
+	def __init__(self, choose: bool, visuals: bool) -> None:
+		""" 
+			Method for initializing the board's instance.
+
+			Args:
+				:param @choose [Boolean] - This argument determines whether the software is either going
+				to be launched in fisher's chess or not. It accepts a boolean value. If it is False, it will be
+				launched in fisher's chess. If it is false, it won't be launched in fisher's chess. This would
+				be used when the visuals and algorithm of the software is complete.
+				:param @visuals [Boolean] - This argument determines whether the chess visuals should display on
+				the console or on the pygame canvas. If it is true, it will be displayed on pygame's canvas. if
+				is False, it will be displayed on the console. This part of the project is meant to track down
+				mistakes easily if encountered.
+
+			Return:
+				There is no return value for this method.
+		"""
 		self.WP, self.WH, self.WQ, self.WN, self.WB, self.WK = 0, 0, 0, 0, 0, 0
 		self.BP, self.BH, self.BQ, self.BN, self.BB, self.BK = 0, 0, 0, 0, 0, 0
 		self.choose = choose
@@ -134,27 +151,26 @@ class BoardGeneration():
 		"""
 		Binary, general_list, path = None, [], f"{dir_path}/media/image/image_17/"
 		chess_pieses = {
-			"P" : [Pawn, f"{path}white_pawn.png"],
-			"R"	: [Rook, f"{path}white_rook.png"],
-			"K" : [King, f"{path}white_king.png"],
-			"Q" : [Queen, f"{path}white_queen.png"],
-			"N" : [Knight, f"{path}white_knight.png"],
-			"B" : [Bishop, f"{path}white_bishop.png"],
-			"p" : [Pawn, f"{path}black_pawn.png"],
-			"r"	: [Rook, f"{path}black_rook.png"],
-			"k" : [King, f"{path}black_king.png"],
-			"q" : [Queen, f"{path}black_queen.png"],
-			"n" : [Knight, f"{path}black_knight.png"],
-			"b" : [Bishop, f"{path}black_bishop.png"],
+			"P" : [Pawn, (f"{path}white_pawn.png", "White", "WP")],
+			"R"	: [Rook, (f"{path}white_rook.png", "White", "WH")],
+			"K" : [King, (f"{path}white_king.png", "White", "WK")],
+			"Q" : [Queen, (f"{path}white_queen.png", "White", "WQ")],
+			"N" : [Knight, (f"{path}white_knight.png", "White", "WN")],
+			"B" : [Bishop, (f"{path}white_bishop.png", "White", "WB")],
+			"p" : [Pawn, (f"{path}black_pawn.png", "Black", "BP")],
+			"r"	: [Rook, (f"{path}black_rook.png", "Black", "BH")],
+			"k" : [King, (f"{path}black_king.png", "Black", "BK")],
+			"q" : [Queen, (f"{path}black_queen.png", "Black", "BQ")],
+			"n" : [Knight, (f"{path}black_knight.png", "Black", "BN")],
+			"b" : [Bishop, (f"{path}black_bishop.png", "Black", "BB")],
 		}
 		for i in range(64):
 			Binary = "0"*64
 			Binary = Binary[i+1:] + "1" + "".join(list(Binary)[0:i])
-			value = chessboard[int(i/8)][int(i%8)]
-			print(int(i/8), int(i%8))
+			value = chessboard[int(i%8)][int(i/8)]
 			if value in chess_pieses.keys():
 				piece = chess_pieses.get(value)
-				A_piece = piece[0](piece[1])
+				A_piece = piece[0](*piece[1])
 				A_piece.decimal = self.convert_string_to_bitboard(Binary)
 				A_piece.bitwise = Binary
 				A_piece.position = (int(i/8), int(i%8))
