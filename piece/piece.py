@@ -6,14 +6,13 @@
 
 import pygame
 from uuid import uuid4
-from engine.moves import Moves
 
-class Piece(Moves):
+class Piece(object):
 	"""
 		Parent class for the chess pieces
 	"""
 
-	def __init__(self, image_path, color, symbol):
+	def __init__(self, image_path):
 		"""
 			Method for declaraing and initiating the chess piece
 
@@ -23,25 +22,23 @@ class Piece(Moves):
 				self.__name: Containing the name of the chess piece
 				self.image_path: Containing the path to the image
 		"""
-		Moves.__init__(self)
-		value, self.selected, self._piecevalue = uuid4(), False, 0
-		self.id, self._position, self.bitwise = value.hex, (0, 0), 0
-		self.name, self.image_path, self.decimal = None, image_path, 0
-		self.color, self._symbol = color, None
+		value = uuid4()
+		self.id = value.hex
+		self.__position = 0
+		self.bitwise = 0
+		self.name = None
+		self.image_path = image_path
+		self.decimal = 0
 
 	def __dict__(self):
 		""" Method for the ditionary representation of the class """
 		formate = {
 			"id" : self.id,
 			"Name": self.name,
-			"Color": self.color,
-			"Symbol": self.symbol,
+			"Position": self.position,
 			"Bitwise" : self.bitwise,
 			"Decimal" : self.decimal,
-			"Position": self.position,
-			"Selected": self.selected,
-			"Image Path": self.image_path,
-			f"{str(self.name).capitalize()} Value": self.piecevalue
+			"Image Path": self.image_path
 		}
 		return formate
 
@@ -54,41 +51,16 @@ class Piece(Moves):
 	@property	
 	def position(self):
 		""" Method for getting the private position attribute """
-		return self._position
+		return self.__position
 
 	@position.setter
 	def position(self, position):
 		""" Method for setting the private position attribute """
-		self._position = position
-
-	@property
-	def piecevalue(self):
-		""" Method for returning the private attribute piecevalue """
-		return self._piecevalue
-
-	@piecevalue.setter
-	def piecevalue(self, piecevalue):
-		""" Method for assigning a value to the private attribute piecevalue """
-		self._piecevalue = piecevalue
-
-	@property
-	def symbol(self):
-		""" Method for returning the private instance variable symbol """
-		return self._symbol
-	
-	@symbol.setter
-	def symbol(self, sym):
-		""" Method for assigning a new variable to the new private intance attribute symbol """
-		self._symbol = sym
+		self.__position = position
 
 	def __str__(self):
 		""" Method for changing the string representation of the class """
-		value = "< --"
-		for keys, values in self.__dict__().items():
-			value += f"\n\t{keys}: {values}"
-		value += "\n>"
-		# return f"< --\n\tName: {self.name}\n\tPosition: {self.position}\n\tBitwise: {self.bitwise}\n>"
-		return value
+		return f"< --\n\tName: {self.name}\n\tPosition: {self.position}\n\tBitwise: {self.bitwise}\n>"
 
 	def display(self, app):
 		""" Method for displaying the chess piece on the board """
@@ -100,8 +72,6 @@ class Piece(Moves):
 		""" Method for generating the position using the bitwise """
 		self.position = (self.position[0] * 80, self.position[1] * 80)
 		# print(self, self.position)
-
-
 
 
 

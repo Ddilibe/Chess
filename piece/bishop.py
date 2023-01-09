@@ -8,6 +8,7 @@ from piece import Piece
 
 class Bishop(Piece):
 
-	def __init__(self, image_path, color, symbol):
-		Piece.__init__(self, image_path, color, symbol)
-		self.name, self.piecevalue = "bishop", 325
+	name = "bishop"
+	def __init__(self, image_path):
+		Piece.__init__(self, image_path)
+		self.name = "bishop"

@@ -8,7 +8,7 @@ from piece import Piece
 
 class Pawn(Piece):
 
-	def __init__(self, image_path, color, symbol):
-		super().__init__(image_path, color, symbol)
+	name = "pawn"
+	def __init__(self, image_path):
+		super().__init__(image_path)
 		self.name = "pawn"
-		self.piecevalue = 100
