@@ -32,6 +32,9 @@ class ChessPieceType(Enum):
 	knight = Knight
 	bishop = Bishop
 
+class ChessPieceError(Exception):
+	pass
+
 class App:
 	""" Create a single-window app with multiple Scenes. """
 
@@ -46,7 +49,7 @@ class App:
 		self.white_piece, self.black_piece, color = [], [], "black"
 		path = f"{dir_path}/media/image/image_1/"
 
-		self.board = BoardGeneration(False, True)
+		self.board = BoardGeneration(True, True)
 		if self.board.choose:
 			self.array = self.board.initiate_normal_chess()
 		else:
