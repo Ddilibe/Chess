@@ -146,13 +146,13 @@ class Moves(object):
 			PAWN_MOVES&=~possibility
 			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
 
-		# This section is for calculating enpassant
-		if len(history) >= 4:
-			oldpawn = history[-1]
-			if oldpawn.name == "BP":
-				# Trying to explain a code that was written in java in python. 
-				# charat returns the instanr of the 
-				# 6 - 6
+		# # This section is for calculating enpassant
+		# if len(history) >= 4:
+		# 	oldpawn = history[-1]
+		# 	if oldpawn.name == "BP":
+		# 		# Trying to explain a code that was written in java in python. 
+		# 		# charat returns the instanr of the 
+		# 		# 6 - 6
 
 
 		return list_of_white_pawn_moves
