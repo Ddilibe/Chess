@@ -6,3 +6,4 @@ The chess piece are those pieses on a chess board that you move while playing a 
 1. Move - Each chess piece has to move
 2. Dict - Each chess move has a dictionary representation
 3. Capture - Each chess piece has a capture sequence.
+4. Promotion - Every pawn has to be promoted.
