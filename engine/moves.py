@@ -11,13 +11,12 @@ from enum import Enum
 class Moves(object):
 	"""docstring for Moves"""
 	def __init__(self):
-			Rank 8 Represents the Top of the chessboard
 		""" 
 			Method to initiate the Moves class. C (uppercase) would be used to represent the chess piece.
 
 			Variables:
 				:vari @self.RANK_8 [int] This variable contains all the chess pieces on the top value.
-				Before:
+				Visuals:
 					["C", "C", "C", "C", "C", "C", "C", "C"],
 					[" ", " ", " ", " ", " ", " ", " ", " "],
 					[" ", " ", " ", " ", " ", " ", " ", " "],
@@ -26,6 +25,17 @@ class Moves(object):
 					[" ", " ", " ", " ", " ", " ", " ", " "],
 					[" ", " ", " ", " ", " ", " ", " ", " "],
 					[" ", " ", " ", " ", " ", " ", " ", " "]
+				:vari @self.FILE_A [int] - This variable is used to indicate the chess pieces on the left
+				Rank 8 Represents the Top of the chessboard
+				Visuals:
+					["C", " ", " ", " ", " ", " ", " ", " "],
+					["C", " ", " ", " ", " ", " ", " ", " "],
+					["C", " ", " ", " ", " ", " ", " ", " "],
+					["C", " ", " ", " ", " ", " ", " ", " "],
+					["C", " ", " ", " ", " ", " ", " ", " "],
+					["C", " ", " ", " ", " ", " ", " ", " "],
+					["C", " ", " ", " ", " ", " ", " ", " "],
+					["C", " ", " ", " ", " ", " ", " ", " "]
 		"""
 		self.FILE_A=72340172838076673
 		self.FILE_H=-9187201950435737472
@@ -125,8 +135,9 @@ class Moves(object):
 			Then it makes a bitwise exclusive "and" with Black_Piece variable
 			If there is a possible capture on the right, Operation moves to the next bitwise operation. 
 			Else, The operation for the part is done
-			The next step it takes is to make a bitwise AND operation against a bitwise not Rank 8 position
-
+			The next step it takes is to make a bitwise AND operation against a bitwise not Rank 8 position.
+			The next step is to take the bitwise AND the previous result against the bitwise NOT of the File_A
+			This is to eliminate all the moves on the left extreme of the chess board.
 		"""
 		PAWN_MOVES = (WP>>7)&self.BLACK_PIECES&~self.RANK_8&~self.FILE_A
 		possibility = PAWN_MOVES&~(PAWN_MOVES-1)
