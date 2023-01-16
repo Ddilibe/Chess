@@ -32,4 +32,4 @@ if __name__ == '__main__':
 		"old" : ()
 		}
 	]
-	print(c.possible_moves_white_console("", d.WP, d.WH, d.WQ, d.WN, d.WB, d.WK, d.BP, d.BH, d.BQ, d.BN, d.BB, d.BK))
+	print(c.possible_moves_white_console("", 36028797018963968, d.WH, d.WQ, d.WN, d.WB, d.WK, d.BP, d.BH, d.BQ, d.BN, d.BB, d.BK))
