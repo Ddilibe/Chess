@@ -3,13 +3,13 @@
 """ Script for generating the bitboard """
 
 import random
-from scene import dir_path
-from piece.rook import Rook
-from piece.queen import Queen
-from piece.king import King
-from piece.pawn import Pawn
-from piece.knight import Knight
-from piece.bishop import Bishop
+# from scene import dir_path
+# from piece.rook import Rook
+# from piece.queen import Queen
+# from piece.king import King
+# from piece.pawn import Pawn
+# from piece.knight import Knight
+# from piece.bishop import Bishop
 
 
 a = "a"
@@ -40,12 +40,12 @@ class BoardGeneration():
 	def initiate_normal_chess(self):
 		chessboard = [
 			["r", "n", "b", "q", "k", "b", "n", "r"],
-			["p", "p", "p", "p", "p", "p", "p", "p"],
+			["p", "p", "p", " ", " ", "p", "p", "p"],
+			[" ", " ", " ", " ", "p", " ", " ", " "],
+			[" ", " ", " ", "p", "P", " ", " ", " "],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
 			[" ", " ", " ", " ", " ", " ", " ", " "],
-			[" ", " ", " ", " ", " ", " ", " ", " "],
-			[" ", " ", " ", " ", " ", " ", " ", " "],
-			["P", "P", "P", "P", "P", "P", "P", "P"],
+			["P", "P", "P", "P", " ", "P", "P", "P"],
 			["R", "N", "B", "Q", "K", "B", "N", "R"]
 		]
 		if self.visuals:

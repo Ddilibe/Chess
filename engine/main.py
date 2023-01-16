@@ -24,4 +24,12 @@ if __name__ == '__main__':
 	# print(c.RANK_8, c.BLACK_PIECES, c.FILE_A, d.WP)
 	d.initiate_normal_chess()
 	# print((d.BP|d.BH|d.BQ|d.BN|d.BB), d.WP)
-	print(c.possible_moves_white("", d.WP, d.WH, d.WQ, d.WN, d.WB, d.WK, d.BP, d.BH, d.BQ, d.BN, d.BB, d.BK))
+	# Trying to derive the history format
+	history = [
+		{
+		"time" : 24,
+		"Side": "White",
+		"old" : ()
+		}
+	]
+	print(c.possible_moves_white_console("", d.WP, d.WH, d.WQ, d.WN, d.WB, d.WK, d.BP, d.BH, d.BQ, d.BN, d.BB, d.BK))

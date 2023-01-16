@@ -29,13 +29,15 @@ class Moves(object):
 		self.NOT_WHITE_PIECES = None
 		self.BLACK_PIECES = None
 		self.EMPTY = None
+		self.rankmaster8 = [255, 65280, 16711680, 4278190080, 1095216660480, 280375465082880, 71776119061217280, 18374686479671623680]
+		self.filemaster8 = {72340172838076673, 144680345676153346, 289360691352306692, 578721382704613384, 1157442765409226768, 2314885530818453536, 4629771061636907072, 9259542123273814144}
 
 	def possible_moves_white_console(self, history, WP, WH, WQ, WN, WB, WK, BP, BH, BQ, BN, BB, BK):
 		self.NOT_WHITE_PIECES = ~(WP|WH|WQ|WN|WB|WK|BK)
 		self.BLACK_PIECES = (BP|BH|BQ|BN|BB)
 		self.EMPTY = ~(WP|WH|WQ|WN|WB|WK|BP|BH|BQ|BN|BB|BK)
 		self.time_expermiment(WP)
-		movies = self.possible_wp(history, WP)
+		movies = self.possible_wp(history, WP, BP)
 		return movies
 
 	def visuals(self, lst: Sequence[list]) -> dict:
@@ -60,7 +62,7 @@ class Moves(object):
 		movies = self.possible_wp(history, kwargs['WP'])
 		return movies
 
-	def possible_wp(self, history, WP):
+	def possible_wp(self, history, WP, BP):
 		"""
 			Method is meant to predict the possible moves that a particular white pawn can make. 
 
@@ -114,7 +116,7 @@ class Moves(object):
 		possibility = PAWN_MOVES&~(PAWN_MOVES-1)
 		while possibility != 0:
 			i = self.count_trailing_zeros(PAWN_MOVES)
-			list_of_white_pawn_moves.append(((int(i/8+2)),int(i%8)), (int(i/8),int(i%8)))
+			list_of_white_pawn_moves.append(((int(i/8+2),int(i%8)), (int(i/8),int(i%8))))
 			PAWN_MOVES&=~possibility
 			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
 
@@ -147,17 +149,29 @@ class Moves(object):
 			possibility=PAWN_MOVES&~(PAWN_MOVES-1)
 
 		# # This section is for calculating enpassant
-		# if len(history) >= 4:
-		# 	oldpawn = history[-1]
-		# 	if oldpawn.name == "BP":
-		# 		# Trying to explain a code that was written in java in python. 
-		# 		# charat returns the instanr of the 
-		# 		# 6 - 6
-
+		if len(history) >= 4:
+			oldpawn = history[-1]
+			# Assuming that the histroy variable is a list.
+			# The statement above is meant to incicate that we are collecting the last digits in the histroy
+			# The statement below says confirming that the last history is an instance of a pawn and it is a black pawn,
+			# We can move on to the next step. Else, no siginificant move would be made.
+			if oldpawn.name == "BP":
+				# Trying to explain a code that was written in java in python. 
+				# charat returns the instanr of the 
+				# 6 - 6
+				if oldpawn.old[1] - oldpawn.new[1] == 2:
+					possibility = (WP << 1)&BP&RANK_5&~FILE_A&filemaster8[oldpawn.new[1]]
+					if possibility != 0:
+						i = self.count_trailing_zeros(PAWN_MOVES)
+						list_of_white_pawn_moves.append(((int(i%8-1),int(i%8),"E"), (int(i/8), int(i%8+1))))
+					possibility = (WP >> 1)&BP&RANK_5&~FILE_H&filemaster8[oldpawn.new[1]]
+					if possibility != 0:
+						i = self.count_trailing_zeros(PAWN_MOVES)
+						list_of_white_pawn_moves.append(((int(i%8+1),int(i%8),"E"), (int(i/8), int(i%8-1))))
 
 		return list_of_white_pawn_moves
 
-	def count_trailing_zeros(self, value):
+	def count_trailing_zeros(self, value: int) -> int:
 		zeros = str(value)
 		return len(zeros) - len(zeros.rstrip('0'))
 
@@ -171,7 +185,7 @@ class Moves(object):
 		for i in chessboard:
 			print(i)
 
-	def time_expermiment(self, WP):
+	def time_expermiment(self, WP: int) -> None:
 		looplength = 1000
 		cal1, cal2 = self.etmethoda(looplength, WP), self.etmethodb(looplength, WP)
 		print(f"That took {timeit.timeit(str(cal1), number=1)} to complete for the first method")
